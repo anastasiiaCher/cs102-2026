@@ -17,9 +17,9 @@ jobs:
         pip install pandas pygame
     - name: Install project dependencies
       run: |
-        if [ -f ${{ github.head_ref }}/requirements.txt ];
+        if [ -f requirements.txt ];
         then
-          pip install -r ${{ github.head_ref }}/requirements.txt
+          pip install -r requirements.txt
         fi
     - name: Run isort
       run: |
