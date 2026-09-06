@@ -1,2 +1,8 @@
+
+
+"докстринг"
+
+
 def text():
-    return message
+    "докстринг"
+    return "message"
