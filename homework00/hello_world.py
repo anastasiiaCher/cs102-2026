@@ -1,6 +1,6 @@
-"Работа 0, код с одной функцией"
+"Message"
 
 
-def text():
+def text(message):
+    "Message returns"
     return message
-    return "message"
