@@ -1,14 +1,6 @@
-"""Лаба 00"""
+"Message. Работа 0"
 
 
-def text(message: str = "message") -> str:
-    """Возвращает переданное текстовое сообщение.
-
-    :param message: Строка текста для вывода.
-    :return: Исходная строка текста.
-    """
+def text(message):
+    "Message returns"
     return message
-
-
-if __name__ == "__main__":
-    print(text())
