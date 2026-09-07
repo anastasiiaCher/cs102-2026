@@ -1,2 +1,6 @@
+"this code contains one function that returns a line"
+
+
 def text():
-    return message
+    'this function will return word "message"'
+    return "message"
