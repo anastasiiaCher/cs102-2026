@@ -1,4 +1,4 @@
-"Message"
+"Message. Работа 0"
 
 
 def text(message):
