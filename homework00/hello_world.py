@@ -1,2 +1,4 @@
+"""Module providing a function printing python version."""
 def text():
-    return message
+    """Function printing python version."""
+    return "message"
