@@ -1,2 +1,6 @@
+"Лабораторная работа 0"
+
+
 def text():
-    return message
+    "Функция возвращает строку благодаря message"
+    return "message"
