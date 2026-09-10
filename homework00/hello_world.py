@@ -1,2 +1,6 @@
+"""Module for returning greeting message."""
+
+
 def text():
-    return message
+    """Return greeting message."""
+    return "message"
