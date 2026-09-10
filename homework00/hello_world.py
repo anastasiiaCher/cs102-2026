@@ -1,2 +1,8 @@
+"""
+Лаба 00
+"""
+
+
 def text():
-    return message
+    """Возвращает сообщение"""
+    return "Hello, World!"
