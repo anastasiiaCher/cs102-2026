@@ -1,2 +1,4 @@
+"""Creates a new function entitled test"""
 def text():
-    return message
+    """Returns the word message"""
+    return "message"
