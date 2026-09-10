@@ -1,5 +1,6 @@
+"""код исправлен"""
+
+
 def text():
-    return message
-
-
-"hello"
+    """---"""
+    return "message"
