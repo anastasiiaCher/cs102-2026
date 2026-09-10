@@ -2,5 +2,5 @@
 
 
 def text():
-    "returning the bazinga"
+    "returning that bazinga"
     return "message"
