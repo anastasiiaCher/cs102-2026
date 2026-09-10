@@ -5,4 +5,5 @@
 
 def text():
     """Возвращает сообщение"""
-    return "Hello, World!"
+    return "message"
+
