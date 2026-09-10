@@ -1,2 +1,4 @@
+"В этой строке я ввожу message"
 def text():
-    return "message"
+    "В этой функции я ввожу message"
+    return 'message'
