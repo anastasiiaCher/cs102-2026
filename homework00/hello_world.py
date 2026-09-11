@@ -2,4 +2,4 @@
 def text():
     
     "В этой функции я ввожу message"
-    return 'message'
+    return "message"
