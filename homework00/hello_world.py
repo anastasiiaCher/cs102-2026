@@ -1,2 +1,6 @@
+"""Тривиальный модуль"""
+
+
 def text():
-    return message
+    """Возврат сообщения строкой"""
+    return "message"
