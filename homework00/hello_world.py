@@ -1,6 +1,6 @@
 """Начало"""
 
 
-def text(message):
+def text():
     """функция"""
-    return message
+    return "message"
