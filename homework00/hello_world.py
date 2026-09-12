@@ -1,5 +1,4 @@
 """Module providing a function printing python version."""
-def\
-        text():
+def text():
     """Function printing python version."""
-    return 'message'
+    return "message"
