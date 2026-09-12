@@ -1,2 +1,4 @@
+"""Создание функции text"""
 def text():
-    return message
+    """озвращает текст message"""
+    return "message"
