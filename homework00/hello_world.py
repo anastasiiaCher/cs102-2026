@@ -1,2 +1,6 @@
-def text():
-    return message
+"""Модуль с функцией приветствия."""
+
+
+def text() -> str:
+    """Возвращает приветственную строку."""
+    return "Hello, world!"
