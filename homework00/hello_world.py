@@ -1,2 +1,8 @@
-def text():
-    return message
+"""
+Модуль для выполнения домашнего задания homework00.
+"""
+
+
+def text() -> str:
+    """Вернуть строку-сообщение"""
+    return "message"
