@@ -1,4 +1,6 @@
-''' Module for printing a message '''
+"""Module for printing a message"""
+
+
 def text():
-    ''' Print a message '''
+    """Print a message"""
     return "message"
