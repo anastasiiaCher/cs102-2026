@@ -1,2 +1,10 @@
+"""
+123 docs docs
+"""
+
+
 def text():
-    return message
+    """
+    docstring 123
+    """
+    return "message"
