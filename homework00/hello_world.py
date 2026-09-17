@@ -1,2 +1,11 @@
+"""
+Module shows "message"
+"""
+
+
 def text():
-    return message
+    """
+    Function returns "message"
+    """
+    m = "message"
+    return m
