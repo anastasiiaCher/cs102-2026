@@ -1,8 +1,8 @@
 """функция message"""
 
-MESSAGE = "hello world!"
+MESSAGE = "message"
 
 
 def text():
-    """возврат hello world!"""
+    """возврат message"""
     return MESSAGE
