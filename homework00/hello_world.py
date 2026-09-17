@@ -1,2 +1,8 @@
+"""Module for the hello world task."""
+
+MESSAGE = "message"
+
+
 def text():
-    return message
+    """Return the message."""
+    return MESSAGE
