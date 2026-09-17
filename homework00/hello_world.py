@@ -1,2 +1,8 @@
+"""
+Это первая лаба по проге
+"""
+
+
 def text():
-    return message
+    """Какая-то функция"""
+    return "message"
