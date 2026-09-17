@@ -1,6 +1,6 @@
-"Message"
+"Function"
 
 
 def text():
-    "returning that bazinga"
+    "returning the bazinga"
     return "message"
