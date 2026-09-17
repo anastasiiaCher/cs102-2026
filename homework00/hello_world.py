@@ -1,2 +1,6 @@
+"""функция"""
+
+
 def text():
-    return message
+    """что возвращает"""
+    return "message"
