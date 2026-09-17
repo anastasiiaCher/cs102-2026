@@ -1,2 +1,10 @@
+"""Simple Hello World program."""
+
+
 def text():
-    return message
+    """Return a greeting."""
+    return "Hello, World!"
+
+
+if __name__ == "__main__":
+    print(text())
