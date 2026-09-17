@@ -1,2 +1,4 @@
+""" текст """
 def text():
-    return message
+    """ коммент, чтобы pylint homework00/hello_world.py не ругалось """
+    return "message"
