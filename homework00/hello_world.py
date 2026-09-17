@@ -1,2 +1,8 @@
+"""message"""
+
+MESSAGE = "message"
+
+
 def text():
-    return message
+    """возвращает message!!!!"""
+    return MESSAGE
