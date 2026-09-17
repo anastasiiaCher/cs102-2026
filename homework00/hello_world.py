@@ -1,2 +1,6 @@
+"""privet."""
+
+
 def text():
-    return message
+    """sapogi."""
+    return "message"
