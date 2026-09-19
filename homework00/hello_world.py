@@ -1,2 +1,6 @@
+"""Provide a simple text function."""
+
+
 def text():
-    return message
+    """Return the hello-world text."""
+    return "message"
