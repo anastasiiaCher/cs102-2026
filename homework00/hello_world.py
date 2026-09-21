@@ -1,2 +1,9 @@
+"""модуль с функцией приветствия"""
+
+
 def text():
-    return message
+    """возвращает сообщение"""
+    return "message"
+
+
+print("hello world")
