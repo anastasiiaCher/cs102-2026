@@ -4,4 +4,3 @@
 def text():
     """Printing a message"""
     return "message"
-    
