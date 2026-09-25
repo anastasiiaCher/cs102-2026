@@ -1,2 +1,6 @@
+"""Модуль hello_world."""
+
+
 def text():
-    return message
+    """Возвращает строку 'message'."""
+    return "message"
