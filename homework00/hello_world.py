@@ -2,5 +2,5 @@
 
 
 def text():
-    """""Function printing python version."""
+    """Function printing python version."""
     return "message"
