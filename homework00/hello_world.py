@@ -2,6 +2,7 @@
 Homework 00 task 1
 """
 
+
 def text():
     """
     This is an example of docstring.
