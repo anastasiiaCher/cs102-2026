@@ -1,2 +1,5 @@
+"""Homework00: Hello World."""
+
 def text():
-    return message
+    """Return the greeting message."""
+    return "Hello, World!"
