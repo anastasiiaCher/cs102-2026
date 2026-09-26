@@ -1,2 +1,17 @@
+"""
+Homework 00 task 1
+"""
+
+
 def text():
-    return message
+    """
+    This is an example of docstring.
+
+    Args:
+
+    Returns:
+        Возвращает значение переменной message.
+
+    """
+
+    return "message"
