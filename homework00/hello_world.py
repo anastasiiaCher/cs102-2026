@@ -14,5 +14,4 @@ def text():
 
     """
 
-    message = 1
-    return message
+    return "message"
