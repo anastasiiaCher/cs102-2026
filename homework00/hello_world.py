@@ -2,5 +2,5 @@
 
 
 def text() -> str:
-    """Return the Hello World greeting."""
-    return "Hello, World!"
+    """Return the required message."""
+    return "message"
