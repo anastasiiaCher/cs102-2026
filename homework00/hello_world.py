@@ -2,8 +2,8 @@
 
 
 def text():
-    """Return a hello world message."""
-    message = "Hello, World!"
+    """Return a message."""
+    message = "message"
     return message
 
 
