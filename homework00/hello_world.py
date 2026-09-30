@@ -1,4 +1,6 @@
-'''fixed code'''
+"""fixed code"""
+
+
 def text():
-    '''return the message'''
+    """return the message"""
     return "message"
