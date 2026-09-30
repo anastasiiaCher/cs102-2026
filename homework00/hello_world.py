@@ -1,2 +1,6 @@
+"функ которая вернет строку"
+
+
 def text():
-    return message
+    "сам возврат"
+    return "message"
