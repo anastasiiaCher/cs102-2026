@@ -34,5 +34,11 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for i in ciphertext:
+        if i.isupper():
+            plaintext += chr((ord(i) - shift - 65) % 26 + 65)
+        elif i.islower():
+            plaintext += chr((ord(i) - shift - 97) % 26 + 97)
+        else:
+            plaintext += i
     return plaintext
