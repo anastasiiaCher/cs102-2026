@@ -1,3 +1,16 @@
+"""Vigenere cipher."""
+
+import string
+
+
+def _shift_char(ch: str, shift: int) -> str:
+    """Shifts a single Latin letter by the given amount, keeping its case."""
+    if ch not in string.ascii_letters:
+        return ch
+    base = ord("A") if ch.isupper() else ord("a")
+    return chr((ord(ch) - base + shift) % 26 + base)
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -9,7 +22,9 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for i, ch in enumerate(plaintext):
+        shift = ord(keyword[i % len(keyword)].lower()) - ord("a")
+        ciphertext += _shift_char(ch, shift)
     return ciphertext
 
 
@@ -24,5 +39,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for i, ch in enumerate(ciphertext):
+        shift = ord(keyword[i % len(keyword)].lower()) - ord("a")
+        plaintext += _shift_char(ch, -shift)
     return plaintext
