@@ -1,2 +1,6 @@
+"""text function code"""
+
+
 def text():
-    return message
+    """returns the message"""
+    return "message"
