@@ -23,7 +23,7 @@ Switched to a new branch 'homework01'
 ```
 
 Чтобы отобразить список локальных веток можно воспользоваться командой `git branch`:
-
+pypyt
 ```python
 (cs102) $ git branch
 * homework01
