@@ -35,7 +35,18 @@ def gcd(a: int, b: int) -> int:
     1
     """
     # PUT YOUR CODE HERE
-    pass
+    if a == 0 and b == 0:
+        return 0
+    elif a == 0 and b != 0:
+        return b
+    elif a != 0 and b == 0:
+        return a
+    r = 1 
+    while r != 0:
+       r = a%b
+       if r != 0:
+        a, b = b, r
+    return b
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -57,9 +68,11 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # n = pq
     # PUT YOUR CODE HERE
+    n=p*q
 
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
+    phi = (p-1)*(q-1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
