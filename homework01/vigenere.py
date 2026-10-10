@@ -1,3 +1,6 @@
+from pydoc import plaintext
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -9,7 +12,19 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    while len(keyword) < len(plaintext):
+        keyword += keyword
+    for i, j in zip(plaintext, keyword):
+        if j.isupper():
+            shift = ord(j) - 65
+        else:
+            shift = ord(j) - 97
+        if i.isupper():
+            ciphertext += chr((ord(i) - 65 + shift) % 26 + 65)
+        elif i.islower():
+            ciphertext += chr((ord(i) - 97 + shift) % 26 + 97)
+        else:
+            ciphertext += i
     return ciphertext
 
 
@@ -24,5 +39,17 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    while len(keyword) < len(ciphertext):
+        keyword += keyword
+    for i, j in zip(ciphertext, keyword):
+        if j.isupper():
+            shift = ord(j) - 65
+        else:
+            shift = ord(j) - 97
+        if i.isupper():
+            plaintext += chr((ord(i) - 65 - shift) % 26 + 65)
+        elif i.islower():
+            plaintext += chr((ord(i) - 97 - shift) % 26 + 97)
+        else:
+            plaintext += i
     return plaintext
