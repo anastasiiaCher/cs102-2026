@@ -13,8 +13,17 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    pass
-
+    k = 2 #наш возможный кондидат
+    n_pr = True
+    if n<0 or n==1:
+        n_pr = False
+    else:
+        while k**2 <= n:
+           if n%k==0:
+                n_pr = False
+                break
+           k += 1
+    return n_pr
 
 def gcd(a: int, b: int) -> int:
     """
