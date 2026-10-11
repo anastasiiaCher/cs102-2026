@@ -55,8 +55,39 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    # 1. Сохраняем исходные значения ДО свапа
+    const_phi = phi
+    const_e = e
+    
+    # 2. Делаем свам(меняем местами), если нужно
+    if e < phi:
+        e, phi = phi, e
+        
+    r = 1
+    div = []
+    
+    while r != 0:
+        r = e % phi
+        div.append(e // phi)  # это 4-й столбец таблицы
+        if r != 0:
+            e, phi = phi, r
+            
+    # 3. ПРОВЕРКА: ведь если нод не будет 1, то не будет же обратного элемента
+    if phi != 1:
+        return None
+        
+    x, y = 0, 1  # x, y из последней строки в таблице
+    
+    # 4. в таблицу идёт по обратному 
+    for i in range(len(div) - 2, -1, -1):
+        x, y = y, x - y * div[i]
+        
+    if const_e < const_phi:
+        answer = y % const_phi
+    else:
+        answer = x % const_phi
+        
+    return answer
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
