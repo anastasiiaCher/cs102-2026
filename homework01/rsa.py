@@ -19,10 +19,10 @@ def is_prime(n: int) -> bool:
         n_pr = False
     else:
         while k**2 <= n:
-            if n%k==0:
+            if n % k == 0:
                 n_pr = False
                 break
-            k+=1
+            k += 1
     return n_pr
 
 
@@ -37,15 +37,15 @@ def gcd(a: int, b: int) -> int:
     # PUT YOUR CODE HERE
     if a == 0 and b == 0:
         return 0
-    elif a == 0 and b != 0:
+    if a == 0 and b != 0:
         return b
-    elif a != 0 and b == 0:
+    if a != 0 and b == 0:
         return a
-    r = 1 
+    r = 1
     while r != 0:
-       r = a%b
-       if r != 0:
-        a, b = b, r
+        r = a % b
+        if r != 0:
+            a, b = b, r
     return b
 
 
@@ -56,23 +56,58 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    # Сохраняем исходные значения phi и e
+    const_phi = phi
+    const_e = e
+
+    # Меняем их, если нужно
+    if e < phi:
+        e, phi = phi, e
+
+    r = 1
+    div = []
+
+    while r != 0:
+        r = e % phi
+        div.append(e // phi)  # 4-й столбец таблицы из учебника
+        if r != 0:
+            e, phi = phi, r
+
+    # ПРОВЕРКА: если НОД != 1, обратного элемента нет
+    # Поскольку ругается mypy, то предполагается, что такого не может быть
+    # if phi != 1:
+    #     return None
+
+    x, y = 0, 1  # x, y из последней строки таблицы в учебнике
+
+    # Обратный проход по столбцу с A//B
+    for i in range(len(div) - 2, -1, -1):
+        x, y = y, x - y * div[i]
+
+    # Выбор правильной переменной и модуля
+    if const_e < const_phi:
+        answer = y % const_phi
+    else:
+        answer = x % const_phi
+    return answer
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Генерация ключей
+    """
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
     # PUT YOUR CODE HERE
-    n=p*q
+    n = p * q
 
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
-    phi = (p-1)*(q-1)
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -92,6 +127,9 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """
+    Шифрование
+    """
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -102,10 +140,13 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """
+    Расшифровка
+    """
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
