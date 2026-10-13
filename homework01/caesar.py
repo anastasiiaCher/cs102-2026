@@ -18,7 +18,6 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             ciphertext += chr((ord(i) - ord('A') + shift) % 26 + ord('A'))
         else:
             ciphertext += i
-            j+=1
     return ciphertext
 
 
