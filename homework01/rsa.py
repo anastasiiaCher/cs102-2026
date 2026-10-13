@@ -1,6 +1,7 @@
+"""Реализация RSA шифрования и расшифрования."""
+
 import random
 import typing as tp
-
 
 def is_prime(n: int) -> bool:
     """
@@ -21,7 +22,6 @@ def is_prime(n: int) -> bool:
             return False
         i += 1
     return True
-    pass
 
 
 def gcd(a: int, b: int) -> int:
@@ -35,7 +35,6 @@ def gcd(a: int, b: int) -> int:
     while b != 0:
         a, b = b, a % b
     return abs(a)
-    pass
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -56,12 +55,13 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     if y0 < 0:
         y0 += phistart
     return y0
-    pass
 
 
 def generate_keypair(
     p: int, q: int
 ) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """
+    Generate RSA public and private key pairs from two primes."""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
@@ -91,6 +91,7 @@ def generate_keypair(
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """Encrypt plaintext using the public key(e, n)."""
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -101,6 +102,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
+    """Decrypt plaintext using the private key(d, n)."""
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
