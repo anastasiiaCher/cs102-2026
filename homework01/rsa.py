@@ -15,7 +15,7 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    k = 2  # наш возможный кондидат
+    k = 2  # наш возможный кондидат. 
     n_pr = True
     if n < 0 or n == 1:
         n_pr = False
