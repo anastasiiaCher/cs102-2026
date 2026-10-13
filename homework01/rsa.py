@@ -13,12 +13,13 @@ def is_prime(n: int) -> bool:
     False
     """
 
-    if n <=1: return False
+    if n <= 1:
+        return False
     i = 2
-    while i*i <= n:
-        if n%i == 0:
+    while i * i <= n:
+        if n % i == 0:
             return False
-        i+=1
+        i += 1
     return True
     pass
 
@@ -31,8 +32,8 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    while b!=0:
-        a,b = b,a%b
+    while b != 0:
+        a, b = b, a % b
     return abs(a)
     pass
 
@@ -46,28 +47,31 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     """
     # PUT YOUR CODE HERE
     phistart = phi
-    x0,y0,x1,y1=1,0,0,1
-    while e!=0:
-        q=phi//e
-        phi,e=e,phi%e
-        x0,x1=x1,x0-q*x1
+    x0, y0, x1, y1 = 1, 0, 0, 1
+    while e != 0:
+        q = phi // e
+        phi, e = e, phi % e
+        x0, x1 = x1, x0 - q * x1
         y0, y1 = y1, y0 - q * y1
-    if y0<0:
-        y0+=phistart
+    if y0 < 0:
+        y0 += phistart
     return y0
     pass
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    n=p*q
+    n = p * q
 
     # phi = (p-1)(q-1)
-    phi=(p-1)*(q-1)
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -100,7 +104,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
