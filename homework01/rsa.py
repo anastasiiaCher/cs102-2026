@@ -15,7 +15,7 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    k = 2  # наш возможный кондидат. 
+    k = 2  # наш возможный кондидат.
     n_pr = True
     if n < 0 or n == 1:
         n_pr = False
@@ -43,7 +43,7 @@ def gcd(a: int, b: int) -> int:
     if a == 0 and b != 0:
         return b
     else:
-    # elif a != 0 and b == 0:
+        # elif a != 0 and b == 0:
         return a
     while r != 0:
         r = a % b
@@ -128,7 +128,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
-    """ чтобы pylint был спокоен"""
+    """чтобы pylint был спокоен"""
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -139,7 +139,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
-    """ чтобы pylint был спокоен"""
+    """чтобы pylint был спокоен"""
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
