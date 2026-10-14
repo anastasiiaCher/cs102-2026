@@ -36,7 +36,12 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
+    while b != 0:
+        remainder = a % b
+        a = b
+        b = remainder
+
+    return a
     pass
 
 
