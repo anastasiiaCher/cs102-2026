@@ -53,4 +53,3 @@ def decrypt_scytale(n: int, ciphertext: str) -> str:
     plaintext = plaintext.replace("*", "")
 
     return plaintext
-
