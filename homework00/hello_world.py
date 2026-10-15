@@ -1,2 +1,6 @@
+"""Task for returning a message"""
+
+
 def text():
-    return message
+    """return the message."""
+    return "message"
