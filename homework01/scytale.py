@@ -10,13 +10,7 @@ def encrypt_scytale(n: int, plaintext: str) -> str:
     """
     ciphertext = ""
 
-    """first we get the m, which is how many
-    rows the table has. the amount of columns is n"""
     m = (len(plaintext) + n - 1) // n
-    """then we make plaintext fit perfectly 
-    into the table by adding asterisks
-    and also replace the spaces with underscores,
-    getting the perfect string."""
     plaintext += "*" * (m * n - len(plaintext))
     plaintext = plaintext.replace(" ", "_")
     # print(plaintext)
@@ -45,8 +39,6 @@ def decrypt_scytale(n: int, ciphertext: str) -> str:
 
     m = (len(ciphertext) + n - 1) // n
 
-    # print(plaintext)
-
     mx_cipher = []
 
     for k in range(0, n * m, m):
@@ -62,5 +54,3 @@ def decrypt_scytale(n: int, ciphertext: str) -> str:
 
     return plaintext
 
-
-print(decrypt_scytale(4, "НАУАТЮСАТ_К*"))
