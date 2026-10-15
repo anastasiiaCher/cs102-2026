@@ -50,9 +50,7 @@ def multiplicative_inverse(e: int, phi: int, x: int = 0, y: int = 1) -> int:
     return y % max(temp_list[0])
 
 
-def generate_keypair(
-    p: int, q: int
-) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """the keypair generator. utilises every function we just wrote"""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
