@@ -3,7 +3,7 @@
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """this function encrypts a line. who would have guessed"""
-    ciphertext: str = ''
+    ciphertext: str = ""
 
     for char in plaintext:
         if char.islower():
@@ -18,7 +18,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """this function decrypts a line. who would have guessed"""
-    plaintext: str = ''
+    plaintext: str = ""
 
     for char in ciphertext:
         if char.islower():

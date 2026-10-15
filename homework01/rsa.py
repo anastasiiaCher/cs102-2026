@@ -1,8 +1,8 @@
 """that actually was pretty fun to work on."""
 
-
 import random
 import typing as tp
+
 
 def is_prime(n: int) -> bool:
     """a function i wrote like 2 years ago and still use.
@@ -13,7 +13,7 @@ def is_prime(n: int) -> bool:
     if n <= 1:
         return False
 
-    for k in range(2, int((n ** 0.5) // 1 + 1)):
+    for k in range(2, int((n**0.5) // 1 + 1)):
         if n % k == 0:
             return False
 
@@ -41,16 +41,18 @@ def multiplicative_inverse(e: int, phi: int, x: int = 0, y: int = 1) -> int:
         temp_list.append((a, b))
         a, b = b, a % b
 
-    #print(temp_list)
+    # print(temp_list)
 
     for i in range(len(temp_list) - 1):
         x, y = y, x - y * (temp_list[-i - 2][0] // temp_list[-i - 2][1])
-        #print(x, y, temp_list[-i - 2][0] // temp_list[-i - 2][1])
+        # print(x, y, temp_list[-i - 2][0] // temp_list[-i - 2][1])
 
     return y % max(temp_list[0])
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """the keypair generator. utilises every function we just wrote"""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
@@ -96,7 +98,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
@@ -112,7 +114,7 @@ if __name__ == "__main__":
     encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
     print("".join(map(lambda x: str(x), encrypted_msg)))
-    #what is the reasoning behind using lambda here??
+    # what is the reasoning behind using lambda here??
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))
