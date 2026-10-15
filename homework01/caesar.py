@@ -1,3 +1,6 @@
+"""pylint is an annoying brat that requires each and every module to be annotated"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -10,8 +13,18 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
+    ciphertext: str = ""
+
+    len_alphabet = len("abcdefghijklmnopqrstuvwxyz")
+
+    for char in plaintext:
+        if char.islower():
+            ciphertext += chr((ord(char) - ord("a") + shift) % len_alphabet + ord("a"))
+        elif char.isupper():
+            ciphertext += chr((ord(char) - ord("A") + shift) % len_alphabet + ord("A"))
+        else:
+            ciphertext += char
+
     return ciphertext
 
 
@@ -27,6 +40,16 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
+    plaintext: str = ""
+
+    len_alphabet = len("abcdefghijklmnopqrstuvwxyz")
+
+    for char in ciphertext:
+        if char.islower():
+            plaintext += chr((ord(char) - ord("a") - shift) % len_alphabet + ord("a"))
+        elif char.isupper():
+            plaintext += chr((ord(char) - ord("A") - shift) % len_alphabet + ord("A"))
+        else:
+            plaintext += char
+
     return plaintext
