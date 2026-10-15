@@ -42,8 +42,7 @@ def gcd(a: int, b: int) -> int:
         return 0
     if a == 0 and b != 0:
         return b
-    else:
-        # elif a != 0 and b == 0:
+    if b == 0 and a != 0:
         return a
     while r != 0:
         r = a % b
