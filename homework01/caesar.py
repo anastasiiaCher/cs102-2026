@@ -2,7 +2,17 @@
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """this function encrypts a line. who would have guessed"""
+    """
+    Encrypts plaintext using a Caesar cipher.
+    >>> encrypt_caesar("PYTHON")
+    'SBWKRQ'
+    >>> encrypt_caesar("python")
+    'sbwkrq'
+    >>> encrypt_caesar("Python3.6")
+    'Sbwkrq3.6'
+    >>> encrypt_caesar("")
+    ''
+    """
     ciphertext: str = ""
 
     for char in plaintext:
@@ -17,7 +27,17 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
-    """this function decrypts a line. who would have guessed"""
+     """
+    Decrypts a ciphertext using a Caesar cipher.
+    >>> decrypt_caesar("SBWKRQ")
+    'PYTHON'
+    >>> decrypt_caesar("sbwkrq")
+    'python'
+    >>> decrypt_caesar("Sbwkrq3.6")
+    'Python3.6'
+    >>> decrypt_caesar("")
+    ''
+    """
     plaintext: str = ""
 
     for char in ciphertext:
