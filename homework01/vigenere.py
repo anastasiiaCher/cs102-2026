@@ -30,5 +30,8 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for index, char in enumerate(ciphertext):
+        key_char = keyword[index % len(keyword)]
+        shift = ord(key_char.upper()) - ord("A")
+        plaintext += encrypt_caesar(char, -shift)
     return plaintext
