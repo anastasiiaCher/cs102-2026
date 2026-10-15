@@ -22,7 +22,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         if i.isupper():
             cyphertext += chr((ord(i) - upper_ind + shift) % alpha_size + upper_ind)
         elif i.islower():
-            cyphertext += chr((ord(i) - lower_ind + shift) % alpha_size + upper_ind)
+            cyphertext += chr((ord(i) - lower_ind + shift) % alpha_size + lower_ind)
         else:
             cyphertext += i
     return cyphertext
@@ -52,7 +52,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         if i.isupper():
             plaintext += chr((ord(i) - upper_ind - shift) % alpha_size + upper_ind)
         elif i.islower():
-            plaintext += chr((ord(i) - lower_ind - shift) % alpha_size + upper_ind)
+            plaintext += chr((ord(i) - lower_ind - shift) % alpha_size + lower_ind)
         else:
             plaintext += i
     return plaintext
