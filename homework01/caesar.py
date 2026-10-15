@@ -16,7 +16,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     alpha_size = 26
     for c in plaintext:
         if c.isupper():
-            ciphertext += chr((ord(c) - upper_ind + shift) % alpha_size + alpha_size)
+            ciphertext += chr((ord(c) - upper_ind + shift) % alpha_size + upper_ind)
         elif c.islower():
             ciphertext += chr((ord(c) - lower_ind + shift) % alpha_size + lower_ind)
         else:
