@@ -5,11 +5,15 @@ import typing as tp
 
 
 def is_prime(n: int) -> bool:
-    """a function i wrote like 2 years ago and still use.
-    goes to sqrt(n) because this is the biggest divisor of n
-    that exists if we look at min(k, n /k)
-    (we search all the possible divisors by these pairs)
-    p.s. wow yes very funny keep testing my function with negative numbers"""
+    """
+    Tests to see if a number is prime.
+    >>> is_prime(2)
+    True
+    >>> is_prime(11)
+    True
+    >>> is_prime(8)
+    False
+    """
     if n <= 1:
         return False
 
@@ -21,7 +25,13 @@ def is_prime(n: int) -> bool:
 
 
 def gcd(a: int, b: int) -> int:
-    """standard euclidian algorithm. not much to say"""
+    """
+    Euclid's algorithm for determining the greatest common divisor.
+    >>> gcd(12, 15)
+    3
+    >>> gcd(3, 7)
+    1
+    """
     while b != 0:
         a, b = b, a % b
 
@@ -29,9 +39,12 @@ def gcd(a: int, b: int) -> int:
 
 
 def multiplicative_inverse(e: int, phi: int, x: int = 0, y: int = 1) -> int:
-    """a rough version, yes. but it still works
-    or just use pow(a, -1, b) like a normal person
-    p.s. omg yes more edge cases please"""
+    """
+    Euclid's extended algorithm for finding the multiplicative
+    inverse of two numbers.
+    >>> multiplicative_inverse(7, 40)
+    23
+    """
     if e == 1 or phi == 1:
         return 0
 
