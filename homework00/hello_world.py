@@ -1,2 +1,6 @@
+"""Provide a text message."""
+
+
 def text():
-    return message
+    """Return the message expected by the test."""
+    return "message"
