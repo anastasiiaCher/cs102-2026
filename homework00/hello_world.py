@@ -1,2 +1,6 @@
+"Код задает функцию, которая возвращает строку"
+
+
 def text():
-    return message
+    "Функция возвращает слово 'message'"
+    return "message"
