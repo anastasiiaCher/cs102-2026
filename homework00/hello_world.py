@@ -1,2 +1,4 @@
+"Defining the function text
 def text():
-    return message
+    "Returning the message
+    return "message"
