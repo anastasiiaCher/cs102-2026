@@ -12,8 +12,12 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n < 2:
+        return False  # числа меньше 2 не являются простыми
+    for i in range(2, int(n ** 0.5) + 1):  # проверяем делители от 2 до квадратного корня из числа
+        if n % i == 0:  # если число разделилось нацело, то оно составное
+            return False
+    return True
 
 
 def gcd(a: int, b: int) -> int:
@@ -24,8 +28,9 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    while b != 0:  # пока переменная b не станет нулем
+        a, b = b, a % b  # записываем делитель в а, а новый остаток от деления в b
+    return a  # возвращаем последнее ненулевое число - это и будет НОД
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -35,8 +40,18 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    phi_orig = phi
+
+    x0, x1 = 0, 1  # Переменные для отслеживания деления
+
+    while e > 1:
+        # Находим частное и новый остаток от деления
+        q = e // phi
+        e, phi = phi, e % phi
+        x0, x1 = x1 - q * x0, x0  # Обновляем переменные
+    if x1 < 0:  # Если результат ушел в минус, возвращаем его в положительный диапазон
+        x1 += phi_orig
+    return x1
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -46,10 +61,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q  # перемножаем два простых числа и записывам их в n
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)  # находим значение функции Эйлера
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
