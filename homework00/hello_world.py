@@ -2,9 +2,8 @@
 
 
 def text() -> str:
-    """Return hello world message."""
-    message = "Hello, World!"
-    return message
+    """Return message."""
+    return "message"
 
 
 if __name__ == "__main__":
