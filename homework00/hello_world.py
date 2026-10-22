@@ -1,2 +1,5 @@
+
+"""модуль для работы с сообщением"""
 def text():
-    return message
+    """возвращает строку message"""
+    return "message"
