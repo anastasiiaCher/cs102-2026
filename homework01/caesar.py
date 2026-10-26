@@ -11,7 +11,22 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+
+    for i in plaintext:
+        if i.isalpha():
+            if i == i.lower():
+                place = ord(i) - ord("a")
+                new_place = (place + shift) % 26
+                k = chr(new_place + ord("a"))
+                ciphertext += k
+            else:
+                place = ord(i) - ord("A")
+                new_place = (place + shift) % 26
+                k = chr(new_place + ord("A"))
+                ciphertext += k
+        else:
+            ciphertext += i
+
     return ciphertext
 
 
@@ -28,5 +43,20 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+
+    for i in ciphertext:
+        if i.isalpha():
+            if i == i.lower():
+                place = ord(i) - ord("a")
+                new_place = (place - shift) % 26
+                k = chr(new_place + ord("a"))
+                plaintext += k
+            else:
+                place = ord(i) - ord("A")
+                new_place = (place - shift) % 26
+                k = chr(new_place + ord("A"))
+                plaintext += k
+        else:
+            plaintext += i
+
     return plaintext
