@@ -9,7 +9,21 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for index, i in enumerate(plaintext):
+        key_index = index % len(keyword)
+        key_letter = keyword[key_index]
+        if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            shift = ord(key_letter.upper()) - ord("A")
+            position = ord(i) - ord("A")
+            new_position = (position + shift) % 26
+            ciphertext += chr(new_position + ord("A"))
+        elif i in "abcdefghijklmnopqrstuvwxyz":
+            shift = ord(key_letter.upper()) - ord("A")
+            position = ord(i) - ord("a")
+            new_position = (position + shift) % 26
+            ciphertext += chr(new_position + ord("a"))
+        else:
+            ciphertext += i
     return ciphertext
 
 
@@ -24,5 +38,19 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for index, i in enumerate(ciphertext):
+        key_index = index % len(keyword)
+        key_letter = keyword[key_index]
+        if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            shift = ord(key_letter.upper()) - ord("A")
+            position = ord(i) - ord("A")
+            new_position = (position - shift) % 26
+            plaintext += chr(new_position + ord("A"))
+        elif i in "abcdefghijklmnopqrstuvwxyz":
+            shift = ord(key_letter.upper()) - ord("A")
+            position = ord(i) - ord("a")
+            new_position = (position - shift) % 26
+            plaintext += chr(new_position + ord("a"))
+        else:
+            plaintext += i
     return plaintext
