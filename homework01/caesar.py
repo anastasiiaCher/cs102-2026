@@ -2,6 +2,10 @@
 Модуль для шифрования и дешифрования текста с помощью шифра Цезаря.
 """
 
+UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LOWER = "abcdefghijklmnopqrstuvwxyz"
+KOLVO_BUKV_V_ALFAVITE = 26
+
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
@@ -17,17 +21,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     ciphertext = ""
     for x in plaintext:
-        if x not in "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm":
-            ciphertext += x
+        if x in LOWER:
+            ciphertext += LOWER[(LOWER.index(x) + shift) % KOLVO_BUKV_V_ALFAVITE]
+            # берём индекс сначала от номера маленькоц
+            # буквы в алфивите и добавляем сдивг, дальше делаем на число букв в алфаите (26)
+            # , чтобы мы вернились в границы алфавита и опять определяем,
+            # какая это буква в алфавите по счёту
+        elif x in UPPER:
+            ciphertext += UPPER[(UPPER.index(x) + shift) % KOLVO_BUKV_V_ALFAVITE]  # аналогично
         else:
-            if x.isupper() == 1 and ord(x) + shift > 90:
-                ciphertext += chr(ord(x) + shift - 26)
-            elif x.isupper() == 1 and ord(x) + shift <= 90:
-                ciphertext += chr(ord(x) + shift)
-            if x.islower() == 1 and ord(x) + shift > 122:
-                ciphertext += chr(ord(x) + shift - 26)
-            elif x.islower() == 1 and ord(x) + shift <= 122:
-                ciphertext += chr(ord(x) + shift)
+            ciphertext += x  # скипаем не буквы (не прининяем сдвиг, просто дописываем к результат)
     return ciphertext
 
 
@@ -46,15 +49,11 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     # PUT YOUR CODE HERE
     for x in ciphertext:
-        if x not in "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm":
-            plaintext += x
+        # аналогично
+        if x in UPPER:
+            plaintext += UPPER[(UPPER.index(x) - shift) % KOLVO_BUKV_V_ALFAVITE]
+        elif x in LOWER:
+            plaintext += LOWER[(LOWER.index(x) - shift) % KOLVO_BUKV_V_ALFAVITE]
         else:
-            if x.isupper() == 1 and ord(x) - shift >= 65:
-                plaintext += chr(ord(x) - shift)
-            elif x.isupper() == 1 and ord(x) - shift < 65:
-                plaintext += chr(ord(x) - shift + 26)
-            if x.islower() == 1 and ord(x) - shift >= 97:
-                plaintext += chr(ord(x) - shift)
-            elif x.islower() == 1 and ord(x) - shift < 97:
-                plaintext += chr(ord(x) - shift + 26)
+            plaintext += x
     return plaintext
