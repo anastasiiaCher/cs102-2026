@@ -37,7 +37,8 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
-    >>> multiplicative_inverse(7, 40)    23
+    >>> multiplicative_inverse(7, 40)
+    23
     """
     old_r, r = phi, e
     old_t, t = 0, 1
