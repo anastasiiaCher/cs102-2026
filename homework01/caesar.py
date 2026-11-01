@@ -23,10 +23,3 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     return caesar_cipher(ciphertext, -shift)
-
-
-encoded = encrypt_caesar('Python3.6')
-decoded = decrypt_caesar(encoded)
-
-print(encoded)  # Sbwkrq3.6
-print(decoded)  # Python3.6
