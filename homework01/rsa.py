@@ -49,7 +49,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         if (d * e) % phi == 1:
             return d
 
-    raise ValueError("Multiplicative inverse not found")
+    return 0
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
