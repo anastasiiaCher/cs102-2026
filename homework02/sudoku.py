@@ -1,8 +1,10 @@
 """Модуль для решения и генерации пазлов Судоку."""
 
 import pathlib
-import typing as tp
 import random
+import typing as tp
+
+
 
 T = tp.TypeVar("T")
 
