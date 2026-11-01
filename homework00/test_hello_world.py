@@ -1,6 +1,6 @@
 import unittest
 
-import hello_world
+import task1
 
 
 class HelloTestCase(unittest.TestCase):
