@@ -100,6 +100,7 @@ def find_empty_positions(
         for j in range(a):
             if grid[i][j] == ".":
                 return (i, j)
+    return None
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
