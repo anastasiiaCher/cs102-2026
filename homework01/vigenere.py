@@ -1,28 +1,49 @@
+"""Implementation of the Vigenere cipher."""
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
-    >>> encrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> encrypt_vigenere("python", "a")
-    'python'
-    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-    'LXFOPVEFRNHR'
-    """
+    """Encrypt plaintext using the Vigenere cipher."""
     ciphertext = ""
-    # PUT YOUR CODE HERE
+
+    for index, char in enumerate(plaintext):
+        key_char = keyword[index % len(keyword)]
+        shift = ord(key_char.upper()) - ord("A")
+
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            encrypted_position = (position + shift) % 26
+            ciphertext += chr(encrypted_position + ord("A"))
+
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            encrypted_position = (position + shift) % 26
+            ciphertext += chr(encrypted_position + ord("a"))
+
+        else:
+            ciphertext += char
+
     return ciphertext
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
-    >>> decrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> decrypt_vigenere("python", "a")
-    'python'
-    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-    'ATTACKATDAWN'
-    """
+    """Decrypt ciphertext using the Vigenere cipher."""
     plaintext = ""
-    # PUT YOUR CODE HERE
+
+    for index, char in enumerate(ciphertext):
+        key_char = keyword[index % len(keyword)]
+        shift = ord(key_char.upper()) - ord("A")
+
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            decrypted_position = (position - shift) % 26
+            plaintext += chr(decrypted_position + ord("A"))
+
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            decrypted_position = (position - shift) % 26
+            plaintext += chr(decrypted_position + ord("a"))
+
+        else:
+            plaintext += char
+
     return plaintext

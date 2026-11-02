@@ -1,2 +1,9 @@
+"""Simple hello world program."""
+
+
 def text():
-    return message
+    """Return the given message."""
+    return "message"
+
+
+print("Hello World")
