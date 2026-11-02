@@ -2,6 +2,7 @@ import random
 import typing as tp
 from typing import Tuple
 
+
 def is_prime(n: int) -> bool:
     """
     >>> is_prime(2)
