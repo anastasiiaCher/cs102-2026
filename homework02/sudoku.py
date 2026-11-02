@@ -40,10 +40,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    result = []
-    for i in range(0, len(values), n):
-        result.append(values[i : i + n])
-    return result
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -55,12 +52,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    if isinstance(pos, tuple):
-        row_index = pos[0]
-    else:
-        row_index = pos
-
-    return grid[row_index]
+    return grid[pos[0]]
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -72,15 +64,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    if isinstance(pos, tuple):
-        col_index = pos[1]
-    else:
-        col_index = pos  # Если это уже просто число
-
-    res = []
-    for row in grid:
-        res.append(row[col_index])
-    return res
+    return [row[pos[1]] for row in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -107,8 +91,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
+    for i, row in enumerate(grid):
+        for j, value in enumerate(row):
             if grid[i][j] == ".":
                 return (i, j)
 
@@ -149,9 +133,9 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     row, col = pos
     for value in find_possible_values(grid, pos):
         grid[row][col] = value
-        solution = solve(grid)
-        if solution is not None:
-            return solution
+        solution_grid = solve(grid)
+        if solution_grid:
+            return solution_grid
         grid[row][col] = "."
     return None
 
@@ -168,7 +152,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
         col = get_col(solution, (0, i))
         if len(set(col)) != 9 or "." in col:
             return False
-    block_centers = [(1, 1), (1, 4), (1, 7), (4, 1), (4, 4), (4, 7), (7, 1), (7, 4), (7, 7)]
+    block_centers = [(r, c) for r in range(1, 9, 3) for c in range(1, 9, 3)]
     for pos in block_centers:
         block = get_block(solution, pos)
         if len(set(block)) != 9 or "." in block:
