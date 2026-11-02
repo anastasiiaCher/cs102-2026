@@ -26,8 +26,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     for row in range(9):
         print(
             "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(9)
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
             )
         )
         if str(row) in "25":
@@ -107,9 +106,7 @@ def find_empty_positions(
                 return (i, j)
 
 
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -119,9 +116,7 @@ def find_possible_values(
     >>> values == {'2', '5', '9'}
     True
     """
-    used_values = (
-        set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
-    )
+    used_values = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
     return set("123456789.") - used_values
 
 
@@ -202,9 +197,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for a in range(3):
         for b in range(3):
             block = {
-                solution[i][j]
-                for i in range(a * 3, a * 3 + 3)
-                for j in range(b * 3, b * 3 + 3)
+                solution[i][j] for i in range(a * 3, a * 3 + 3) for j in range(b * 3, b * 3 + 3)
             }
             if block != expected:
                 return False
