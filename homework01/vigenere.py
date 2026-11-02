@@ -11,14 +11,14 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     ciphertext = ""
     keyword = keyword.upper()
     keyin = 0
-    for i in plaintext:
-        if i.isalpha():
+    for element in plaintext:
+        if element.isalpha():
             shift = ord(keyword[keyin % len(keyword)]) - ord("A")
-            b = ord("A") if i.isupper() else ord("a")
-            new = (ord(i) - b + shift) % 26 + b
+            base = ord("A") if element.isupper() else ord("a")
+            new = (ord(element) - base + shift) % 26 + base
             ciphertext += chr(new)
         else:
-            ciphertext += i
+            ciphertext += element
         keyin += 1
     return ciphertext
 
@@ -36,13 +36,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     plaintext = ""
     keyword = keyword.upper()
     keyin = 0
-    for i in ciphertext:
-        if i.isalpha():
+    for element in ciphertext:
+        if element.isalpha():
             shift = ord(keyword[keyin % len(keyword)]) - ord("A")
-            b = ord("A") if i.isupper() else ord("a")
-            new = (ord(i) - b - shift) % 26 + b
+            base = ord("A") if element.isupper() else ord("a")
+            new = (ord(element) - base - shift) % 26 + base
             plaintext += chr(new)
         else:
-            plaintext += i
+            plaintext += element
         keyin += 1
     return plaintext
