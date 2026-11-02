@@ -1,6 +1,25 @@
+def caesar_cipher(text: str, shift: int = 3) -> str:
+    result = []
+
+    for char in text:
+        if "A" <= char <= "Z":
+            base = ord("A")
+        elif "a" <= char <= "z":
+            base = ord("a")
+        else:
+            result.append(char)
+            continue
+
+        shifted = (ord(char) - base + shift) % 26
+        result.append(chr(base + shifted))
+
+    return "".join(result)
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
+
     >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
     >>> encrypt_caesar("python")
@@ -10,14 +29,13 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    return caesar_cipher(plaintext, shift)
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     Decrypts a ciphertext using a Caesar cipher.
+
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
@@ -27,6 +45,4 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+    return caesar_cipher(ciphertext, -shift)
