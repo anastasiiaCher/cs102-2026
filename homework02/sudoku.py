@@ -1,7 +1,7 @@
-from copy import deepcopy
 import pathlib
 import random
 import typing as tp
+from copy import deepcopy
 
 T = tp.TypeVar("T")
 
