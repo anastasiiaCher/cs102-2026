@@ -227,7 +227,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     if solution is None:
         raise RuntimeError("Не удалось сгенерировать решение судоку")
 
-    #grid = [row[:] for row in solution]
     grid = deepcopy(solution)
 
     cells_to_remove = max(0, 81 - N)
