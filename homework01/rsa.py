@@ -3,6 +3,15 @@ import typing as tp
 
 
 def is_prime(n: int) -> bool:
+    """
+    >>> is_prime(2)
+    True
+    >>> is_prime(11)
+    True
+    >>> is_prime(8)
+    False
+    """
+
     if n <= 1:
         return False
 
@@ -14,11 +23,21 @@ def is_prime(n: int) -> bool:
 
 
 def gcd(a: int, b: int) -> int:
+    """
+    >>> gcd(12, 15)
+    3
+    >>> gcd(3, 7)
+    1
+    """
     while b != 0:
         a, b = b, a % b
     return a
 
 def multiplicative_inverse(e: int, phi: int) -> int:
+    """
+    >>> multiplicative_inverse(7, 40)
+    23
+    """
     old_r, r = e, phi
     old_s, s = 1, 0
 
@@ -69,7 +88,6 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     cipher = [(ord(char) ** key) % n for char in plaintext]
     # Return the array of bytes
     return cipher
-
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
