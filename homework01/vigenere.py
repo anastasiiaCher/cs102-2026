@@ -1,48 +1,49 @@
+"""Implementation of the Vigenere cipher."""
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
+    """Encrypt plaintext using the Vigenere cipher."""
     ciphertext = ""
-    key_index = 0
 
-    for char in plaintext:
-        shift = ord(keyword[key_index % len(keyword)].upper()) - ord("A")
+    for index, char in enumerate(plaintext):
+        key_char = keyword[index % len(keyword)]
+        shift = ord(key_char.upper()) - ord("A")
 
-        if "A" <= char <= "Z":
-            ciphertext += chr(
-                (ord(char) - ord("A") + shift) % 26 + ord("A")
-            )
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            encrypted_position = (position + shift) % 26
+            ciphertext += chr(encrypted_position + ord("A"))
 
-        elif "a" <= char <= "z":
-            ciphertext += chr(
-                (ord(char) - ord("a") + shift) % 26 + ord("a")
-            )
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            encrypted_position = (position + shift) % 26
+            ciphertext += chr(encrypted_position + ord("a"))
 
         else:
             ciphertext += char
-
-        key_index += 1
 
     return ciphertext
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
+    """Decrypt ciphertext using the Vigenere cipher."""
     plaintext = ""
-    key_index = 0
 
-    for char in ciphertext:
-        shift = ord(keyword[key_index % len(keyword)].upper()) - ord("A")
+    for index, char in enumerate(ciphertext):
+        key_char = keyword[index % len(keyword)]
+        shift = ord(key_char.upper()) - ord("A")
 
-        if "A" <= char <= "Z":
-            plaintext += chr(
-                (ord(char) - ord("A") - shift) % 26 + ord("A")
-            )
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            decrypted_position = (position - shift) % 26
+            plaintext += chr(decrypted_position + ord("A"))
 
-        elif "a" <= char <= "z":
-            plaintext += chr(
-                (ord(char) - ord("a") - shift) % 26 + ord("a")
-            )
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            decrypted_position = (position - shift) % 26
+            plaintext += chr(decrypted_position + ord("a"))
 
         else:
             plaintext += char
-
-        key_index += 1
 
     return plaintext

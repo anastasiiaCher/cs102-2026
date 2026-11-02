@@ -1,10 +1,12 @@
+"""Simplified RSA encryption and decryption implementation."""
+
 import random
 import typing as tp
-from typing import Tuple
 
 
 def is_prime(n: int) -> bool:
-    """
+    """Check whether a number is prime.
+
     >>> is_prime(2)
     True
     >>> is_prime(11)
@@ -15,15 +17,16 @@ def is_prime(n: int) -> bool:
     if n < 2:
         return False
 
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
+    for divisor in range(2, int(n**0.5) + 1):
+        if n % divisor == 0:
             return False
 
     return True
 
 
 def gcd(a: int, b: int) -> int:
-    """
+    """Find the greatest common divisor of two numbers.
+
     >>> gcd(12, 15)
     3
     >>> gcd(3, 7)
@@ -36,79 +39,90 @@ def gcd(a: int, b: int) -> int:
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
-    """
+    """Find the multiplicative inverse of e modulo phi.
+
     >>> multiplicative_inverse(7, 40)
     23
     """
-    old_r, r = e, phi
-    old_s, s = 1, 0
+    old_r, remainder = e, phi
+    old_s, coefficient = 1, 0
 
-    while r != 0:
-        quotient = old_r // r
+    while remainder != 0:
+        quotient = old_r // remainder
 
-        old_r, r = r, old_r - quotient * r
-        old_s, s = s, old_s - quotient * s
+        old_r, remainder = (
+            remainder,
+            old_r - quotient * remainder,
+        )
+        old_s, coefficient = (
+            coefficient,
+            old_s - quotient * coefficient,
+        )
 
     return old_s % phi
 
 
 def generate_keypair(
     p: int, q: int
-) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """Generate a public and private RSA key pair."""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
 
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
-    # n = pq
     n = p * q
-
-    # phi = (p - 1)(q - 1)
     phi = (p - 1) * (q - 1)
 
-    # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
+    divisor = gcd(e, phi)
 
-    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
-    g = gcd(e, phi)
-
-    while g != 1:
+    while divisor != 1:
         e = random.randrange(1, phi)
-        g = gcd(e, phi)
+        divisor = gcd(e, phi)
 
-    # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
 
-    # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
 
+
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
+    """Encrypt plaintext using an RSA key."""
     key, n = pk
-    cipher = [(ord(char) ** key) % n for char in plaintext]
-    return cipher
+    return [pow(ord(char), key, n) for char in plaintext]
+
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
-    # Unpack the key into its components
+    """Decrypt ciphertext using an RSA key."""
     key, n = pk
-    # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
-    # Return the array of bytes as a string
+    plain = [chr(pow(char, key, n)) for char in ciphertext]
     return "".join(plain)
 
 
 if __name__ == "__main__":
     print("RSA Encrypter/ Decrypter")
-    p = int(input("Enter a prime number (17, 19, 23, etc): "))
-    q = int(input("Enter another prime number (Not one you entered above): "))
+
+    prime_p = int(input("Enter a prime number (17, 19, 23, etc): "))
+    prime_q = int(input("Enter another prime number (Not one you entered above): "))
+
     print("Generating your public/private keypairs now . . .")
-    public, private = generate_keypair(p, q)
-    print("Your public key is ", public, " and your private key is ", private)
+
+    public, private = generate_keypair(prime_p, prime_q)
+
+    print(
+        "Your public key is ",
+        public,
+        " and your private key is ",
+        private,
+    )
+
     message = input("Enter a message to encrypt with your private key: ")
     encrypted_msg = encrypt(private, message)
+
     print("Your encrypted message is: ")
-    print("".join(map(lambda x: str(x), encrypted_msg)))
+    print("".join(map(str, encrypted_msg)))
+
     print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
     print(decrypt(public, encrypted_msg))

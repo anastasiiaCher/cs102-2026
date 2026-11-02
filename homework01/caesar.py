@@ -1,11 +1,21 @@
+"""Implementation of the Caesar cipher."""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
+    """Encrypt plaintext using the Caesar cipher."""
     ciphertext = ""
 
     for char in plaintext:
-        if "A" <= char <= "Z":
-            ciphertext += chr((ord(char) - ord("A") + shift)%26 + ord("A"))
-        elif "a" <= char <= "z":
-            ciphertext += chr((ord(char) - ord("a") + shift)%26 + ord("a"))
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            new_position = (position + shift) % 26
+            ciphertext += chr(new_position + ord("A"))
+
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            new_position = (position + shift) % 26
+            ciphertext += chr(new_position + ord("a"))
+
         else:
             ciphertext += char
 
@@ -13,13 +23,20 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+    """Decrypt ciphertext using the Caesar cipher."""
     plaintext = ""
 
     for char in ciphertext:
-        if "A" <= char <= "Z":
-            plaintext += chr((ord(char) - ord("A") - shift)%26 + ord("A"))
-        elif "a" <= char <= "z":
-            plaintext +=chr((ord(char) - ord("a") - shift)%26 + ord("a"))
+        if char.isascii() and char.isupper():
+            position = ord(char) - ord("A")
+            new_position = (position - shift) % 26
+            plaintext += chr(new_position + ord("A"))
+
+        elif char.isascii() and char.islower():
+            position = ord(char) - ord("a")
+            new_position = (position - shift) % 26
+            plaintext += chr(new_position + ord("a"))
+
         else:
             plaintext += char
 
