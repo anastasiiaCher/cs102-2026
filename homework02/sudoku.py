@@ -142,7 +142,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             return result
 
         grid[row][col] = "."
-
     return None
 
 
@@ -222,6 +221,9 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     empty_grid = [["."] * 9 for _ in range(9)]
     solution = solve(empty_grid)
+
+    if solution is None:
+        raise RuntimeError("Не удалось сгенерировать решение судоку")
 
     grid = [row[:] for row in solution]
 
