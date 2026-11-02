@@ -51,7 +51,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
 
         if "A" <= symbol <= "Z":
             number = ord(symbol) - ord("A")
-            number = (number - shift) % 26  
+            number = (number - shift) % 26
             plaintext += chr(number + ord("A"))
         elif "a" <= symbol <= "z":
             number = ord(symbol) - ord("a")

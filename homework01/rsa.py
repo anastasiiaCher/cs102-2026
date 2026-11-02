@@ -13,10 +13,10 @@ def is_prime(n: int) -> bool:
     False
     """
     if n < 2:
-        return False  
+        return False
     for i in range(2, n):
         if n % i == 0:
-            return False  
+            return False
     return True
     pass
 
@@ -45,9 +45,9 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     a, b = e, phi
     x0, x1 = 1, 0
     while b != 0:
-        q = a // b               
-        a, b = b, a % b            
-        x0, x1 = x1, x0 - q * x1   
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - q * x1
     return x0 % phi
     pass
 
@@ -95,7 +95,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
