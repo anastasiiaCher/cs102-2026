@@ -1,3 +1,6 @@
+from caesar import encrypt_caesar
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -9,7 +12,12 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    if not keyword or any(not ("a" <= char <= "z") for char in keyword.lower()):
+        raise ValueError("Keyword must contain only ASCII letters and cannot be empty.")
+    keyword = keyword.lower()
+    for index, char in enumerate(plaintext):
+        shift = ord(keyword[index % len(keyword)]) - ord("a")
+        ciphertext += encrypt_caesar(char, shift)
     return ciphertext
 
 
@@ -24,5 +32,10 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    if not keyword or any(not ("a" <= char <= "z") for char in keyword.lower()):
+        raise ValueError("Keyword must contain only ASCII letters and cannot be empty.")
+    keyword = keyword.lower()
+    for index, char in enumerate(ciphertext):
+        shift = ord(keyword[index % len(keyword)]) - ord("a")
+        plaintext += encrypt_caesar(char, -shift)
     return plaintext
