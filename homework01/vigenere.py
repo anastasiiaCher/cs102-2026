@@ -83,5 +83,6 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
 
         else:
             plaintext += text_letter
+            key_index += 1
 
     return plaintext
