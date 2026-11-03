@@ -60,9 +60,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         d = y1
         y1 = y
 
-    if temp_phi == 1:
-        return d + phi
-    return 0
+    return d % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
