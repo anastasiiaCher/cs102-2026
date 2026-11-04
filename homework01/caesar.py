@@ -20,7 +20,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             ciphertext += chr(new_code)
         else:
             ciphertext += char
-        return ciphertext
+    return ciphertext
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
@@ -44,4 +44,4 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
             plaintext += chr(new_code)
         else:
             plaintext += char
-        return plaintext
+    return plaintext
