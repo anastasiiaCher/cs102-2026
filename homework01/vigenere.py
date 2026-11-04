@@ -41,7 +41,6 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
             key_index += 1
 
     return ciphertext
-    
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:

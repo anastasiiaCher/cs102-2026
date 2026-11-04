@@ -30,6 +30,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             ciphertext += letter
     return ciphertext
 
+
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     Decrypts a ciphertext using a Caesar cipher.
@@ -43,7 +44,6 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-
 
     for letter in ciphertext:
         if letter.isupper():
@@ -62,5 +62,5 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
 
         else:
             plaintext += letter
-            
+
     return plaintext
