@@ -35,4 +35,4 @@ jobs:
         pylint --disable=missing-docstring --variable-rgx="[a-z0-9_]{1,30}$" --argument-rgx="^[a-z][a-z0-9]*((_[a-z0-9]+)*)?$" --ignore-patterns="test_.*?py" --exit-zero ${{ github.head_ref }}
     - name: Run unittests
       run: |
-        python -m unittest discover ${{ github.head_ref }}
+        python -m unittest discover homework01
