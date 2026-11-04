@@ -186,6 +186,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     grid = solve([['.'] * 9 for _ in range(9)])
+    assert grid is not None
     N = min(N, 81)
     positions = [(row, col) for row in range(9) for col in range(9)]  
     for row, col in random.sample(positions, 81 - N):
