@@ -33,7 +33,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("Sbwkrq3.6")
     'Python3.6'
     >>> decrypt_caesar("")
-    ''
+    ""
     """
     plaintext = ""
     for char in ciphertext:
