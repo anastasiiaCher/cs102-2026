@@ -29,7 +29,7 @@ jobs:
         black -l 120 --check --diff --color --exclude "test*" homework01
     - name: Run mypy
       run: |
-        mypy --ignore-missing-imports ${{ github.head_ref }}
+        mypy --ignore-missing-imports homework01
     - name: Run pylint
       run: |
         pylint --disable=missing-docstring --variable-rgx="[a-z0-9_]{1,30}$" --argument-rgx="^[a-z][a-z0-9]*((_[a-z0-9]+)*)?$" --ignore-patterns="test_.*?py" --exit-zero ${{ github.head_ref }}
