@@ -114,7 +114,9 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-
+    digits = set("123456789")
+    used = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
+    return digits - used
 
 
 
