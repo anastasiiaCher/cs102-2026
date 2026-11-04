@@ -5,7 +5,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     'SBWKRQ'
     >>> encrypt_caesar("python")
     'sbwkrq'
-    >>> encrypt_caesar("Python3.6")    
+    >>> encrypt_caesar("Python3.6")
     'Sbwkrq3.6'
     >>> encrypt_caesar("")
     ""
