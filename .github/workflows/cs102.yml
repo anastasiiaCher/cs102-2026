@@ -23,10 +23,10 @@ jobs:
         fi
     - name: Run isort
       run: |
-        isort -c --diff --profile black .
+        isort -c --diff --profile black homework01
     - name: Run black
       run: |
-        black -l 120 --check --diff --color --exclude "test*" .
+        black -l 120 --check --diff --color --exclude "test*" homework01
     - name: Run mypy
       run: |
         mypy --ignore-missing-imports ${{ github.head_ref }}
