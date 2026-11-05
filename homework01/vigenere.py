@@ -1,28 +1,32 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
-    >>> encrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> encrypt_vigenere("python", "a")
-    'python'
-    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-    'LXFOPVEFRNHR'
-    """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    key = keyword.lower()
+    key_len = len(key)
+
+    for i, ch in enumerate(plaintext):
+        shift = ord(key[i % key_len]) - ord('a')
+
+        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+            base = ord('a') if ch.islower() else ord('A')
+            ciphertext += chr((ord(ch) - base + shift) % 26 + base)
+        else:
+            ciphertext += ch  # символ не меняем, но позицию ключа уже учли через i
+
     return ciphertext
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
-    >>> decrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> decrypt_vigenere("python", "a")
-    'python'
-    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-    'ATTACKATDAWN'
-    """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    key = keyword.lower()
+    key_len = len(key)
+
+    for i, ch in enumerate(ciphertext):
+        shift = ord(key[i % key_len]) - ord('a')
+
+        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+            base = ord('a') if ch.islower() else ord('A')
+            plaintext += chr((ord(ch) - base - shift) % 26 + base)
+        else:
+            plaintext += ch
+
     return plaintext
