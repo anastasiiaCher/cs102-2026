@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random
 
 T = tp.TypeVar("T")
 
@@ -96,8 +97,8 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(9):
-        for j in range(9):
+    for i in range(len(grid)):
+        for j in range(len(grid)):
             if grid[i][j] == '.':
                 return (i,j)
 
@@ -151,8 +152,25 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
+    """ Если решение solution верно, то вернуть True, в противном случае False
+
+    # Валидное решение (все в одну строчку, чтобы не было проблем с пробелами)
+    >>> valid = [['5','3','4','6','7','8','9','1','2'], ['6','7','2','1','9','5','3','4','8'], ['1','9','8','3','4','2','5','6','7'], ['8','5','9','7','6','1','4','2','3'], ['4','2','6','8','5','3','7','9','1'], ['7','1','3','9','2','4','8','5','6'], ['9','6','1','5','3','7','2','8','4'], ['2','8','7','4','1','9','6','3','5'], ['3','4','5','2','8','6','1','7','9']]
+    >>> check_solution(valid)
+    True
+
+    # Плохой пазл 1: есть пустая клетка
+    >>> bad = [row[:] for row in valid]
+    >>> bad[0][0] = '.'
+    >>> check_solution(bad)
+    False
+
+    # Плохой пазл 2: дубликат в первой строке
+    >>> bad = [row[:] for row in valid]
+    >>> bad[0][1] = '5'
+    >>> check_solution(bad)
+    False
+    """
     for i in range(9):
         row = get_row(solution, (i, 0))
         col = get_col(solution, (0, i))
@@ -189,7 +207,22 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    if N > 81:
+        N = 81
+
+    empty_grid = [['.' for _ in range(9)] for _ in range(9)]
+    solved_grid = solve(empty_grid)
+    all_cells = [(row, col) for row in range(9) for col in range(9)]
+
+    random.shuffle(all_cells)
+
+    cells_to_remove = 81 - N
+
+    for i in range(cells_to_remove):
+        row, col = all_cells[i]
+        solved_grid[row][col] = '.'
+
+    return solved_grid
 
 
 if __name__ == "__main__":
