@@ -1,35 +1,32 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
-    """
     ciphertext = ""
-    key_index = 0
-    for ch in plaintext:
-        if ch.isalpha():
-            shift = ord(keyword[key_index % len(keyword)].upper()) - ord("A")
-            if ch.isupper():
-                ciphertext += chr((ord(ch) - ord("A") + shift) % 26 + ord("A"))
-            else:
-                ciphertext += chr((ord(ch) - ord("a") + shift) % 26 + ord("a"))
-            key_index += 1
+    key = keyword.lower()
+    key_len = len(key)
+
+    for i, ch in enumerate(plaintext):
+        shift = ord(key[i % key_len]) - ord("a")
+
+        if "a" <= ch <= "z" or "A" <= ch <= "Z":
+            base = ord("a") if ch.islower() else ord("A")
+            ciphertext += chr((ord(ch) - base + shift) % 26 + base)
         else:
-            ciphertext += ch
+            ciphertext += ch  # символ не меняем, но позицию ключа уже учли через i
+
     return ciphertext
 
+
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
-    """
     plaintext = ""
-    key_index = 0
-    for ch in ciphertext:
-        if ch.isalpha():
-            shift = ord(keyword[key_index % len(keyword)].upper()) - ord("A")
-            if ch.isupper():
-                plaintext += chr((ord(ch) - ord("A") - shift) % 26 + ord("A"))
-            else:
-                plaintext += chr((ord(ch) - ord("a") - shift) % 26 + ord("a"))
-            key_index += 1
+    key = keyword.lower()
+    key_len = len(key)
+
+    for i, ch in enumerate(ciphertext):
+        shift = ord(key[i % key_len]) - ord("a")
+
+        if "a" <= ch <= "z" or "A" <= ch <= "Z":
+            base = ord("a") if ch.islower() else ord("A")
+            plaintext += chr((ord(ch) - base - shift) % 26 + base)
         else:
             plaintext += ch
+
     return plaintext
