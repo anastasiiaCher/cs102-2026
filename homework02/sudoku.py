@@ -1,4 +1,5 @@
 """Лабораторная работа: Судоку."""
+
 import pathlib
 import random
 import typing as tp
