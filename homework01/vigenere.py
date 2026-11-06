@@ -12,7 +12,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     if not keyword:
         return plaintext
     key_shifts = [ord(ch.lower()) - ord("a") for ch in keyword]
-    
+
     for i, ch in enumerate(plaintext):
         shift = key_shifts[i % len(key_shifts)]
         if "A" <= ch <= "Z":
@@ -38,7 +38,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     if not keyword:
         return ciphertext
     key_shifts = [ord(ch.lower()) - ord("a") for ch in keyword]
-    
+
     for i, ch in enumerate(ciphertext):
         shift = key_shifts[i % len(key_shifts)]
         if "A" <= ch <= "Z":
