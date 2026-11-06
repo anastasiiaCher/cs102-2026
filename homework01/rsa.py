@@ -1,7 +1,7 @@
 import random
 import typing as tp
 
-#создаем
+#создаем функцию для определения простое число или нет
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -12,15 +12,17 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    if n < 2:
+    if n < 2: #если число меньше двух(0, 1)
         return False
-    for m in range(2, n):
-        if n % m == 0: return False
+    for m in range(2, n):#задаем переменную m, будем ее перебирать от 1 до n,
+        # чтобы узнать при делении остается остаток или нет
+        if n % m == 0: return False #если не остается значит число непростое
 
-    return True
+    return True#а если остается, то простое
 
 
-def gcd(a: int, b: int) -> int:
+def gcd(a: int, b: int) -> int:#создаем функцию алгоритма Евклида,
+    # чтобы найти НОД
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -28,47 +30,27 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    if b == 0:
-        return a
-    return gcd(b, a % b)
+    if b == 0:#если число б равно 0,
+        return a#то возвращаем просто число а
+    return gcd(b, a % b)#иначе мы возвращаем число а ставшее числом б,
+    # и остаток от делеения а на б. повторяем функцию, уменьшаем число чтобы дойти до 0
 
 
-def multiplicative_inverse(e: int, phi: int) -> int:
+def multiplicative_inverse(e: int, phi: int) -> int:#создаем функцию для расширенного алгоритма Евклида
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    if phi == 1:
-        return 0
+    if phi == 1:  # обрабатываем граничный случай
+        return 0  # по модулю 1 обратного не существует
 
-    d = 0
-    x1 = 0
-    x2 = 1
-    y1 = 1
-    temp_phi = phi
+    for d in range(1, phi):  # перебираем все числа от 1 до phi-1
+        if (e * d) % phi == 1:  # проверяем условие: e * d mod phi = 1
+            return d  # нашли обратное число
 
-    while e > 0:
-        temp1 = temp_phi // e
-        temp2 = temp_phi - temp1 * e
-        temp_phi = e
-        e = temp2
-
-        x = x2 - temp1 * x1
-        y = d - temp1 * y1
-
-        x2 = x1
-        x1 = x
-        d = y1
-        y1 = y
-
-    if temp_phi == 1:
-        # Возвращаем положительное d
-        if d < 0:
-            d += phi
-        return d
-    return 0
+    return 0  # если не нашли, возвращаем 0
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -78,10 +60,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    n = p * q
+    n = p * q#
 
     # phi = (p-1)(q-1)
-    phi = (p - 1) * (q - 1)
+    phi = (p - 1) * (q - 1)#
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
