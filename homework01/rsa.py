@@ -17,7 +17,7 @@ def is_prime(n: int) -> bool:
     for m in range(2, n):
         if n % m == 0: return False
 
-        return True
+    return True
 
 
 def gcd(a: int, b: int) -> int:
