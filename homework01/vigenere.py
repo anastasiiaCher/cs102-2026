@@ -24,7 +24,6 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
             
         else:
             ciphertext += char
-
         key_index += 1
 
     return ciphertext
