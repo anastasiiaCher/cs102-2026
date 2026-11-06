@@ -42,7 +42,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     """
     if phi == 1:
         return 0
-    
+
     d = 0
     x1 = 0
     x2 = 1
@@ -64,7 +64,10 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         y1 = y
 
     if temp_phi == 1:
-        return d + phi
+        # Возвращаем положительное d
+        if d < 0:
+            d += phi
+        return d
     return 0
 
 
