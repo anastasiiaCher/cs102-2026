@@ -1,7 +1,7 @@
 import random
 import typing as tp
 
-
+#создаем
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -40,6 +40,9 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
+    if phi == 1:
+        return 0
+    
     d = 0
     x1 = 0
     x2 = 1
