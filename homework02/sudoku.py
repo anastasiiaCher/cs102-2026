@@ -148,7 +148,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """
     pos = find_empty_positions(grid)
     if pos is None:
-        return grid  # пустых клеток нет, судоку решено
+        return grid
     row, col = pos
     for value in find_possible_values(grid, pos):
         grid[row][col] = value
@@ -156,7 +156,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         if result is not None:
             return result
         grid[row][col] = "."
-    return None  # ни одно значение не подошло
+    return None
 
 
 
