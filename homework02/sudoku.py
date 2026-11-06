@@ -50,7 +50,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row, col = pos
+    row, _ = pos
     return grid[row]
 
 
@@ -63,7 +63,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    row, col = pos
+    _, col = pos
     result = []
     for line in grid:
         result.append(line[col])
@@ -99,9 +99,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for r in range(len(grid)):
-        for c in range(len(grid[r])):
-            if grid[r][c] == ".":
+    for r, row in enumerate(grid):
+        for c, value in enumerate(row):
+            if value == ".":
                 return (r, c)
     return None
 
@@ -128,7 +128,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """Решение пазла, заданного в grid"""
-    """ Как решать Судоку?
+    """Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
         3. Для каждого возможного значения:
@@ -193,7 +193,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     first_row = list("123456789")
     random.shuffle(first_row)
     grid[0] = first_row
-    grid = solve(grid)
+    solved = solve(grid)
+    if solved is None:
+        raise ValueError("Не удалось сгенерировать судоку")
+    grid = solved
     cells = []
     for r in range(9):
         for c in range(9):
