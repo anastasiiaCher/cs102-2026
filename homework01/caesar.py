@@ -1,15 +1,17 @@
 """
-    Encrypts plaintext using a Caesar cipher.
+Encrypts plaintext using a Caesar cipher.
 
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
+>>> encrypt_caesar("PYTHON")
+'SBWKRQ'
+>>> encrypt_caesar("python")
+'sbwkrq'
+>>> encrypt_caesar("Python3.6")
+'Sbwkrq3.6'
+>>> encrypt_caesar("")
+''
+"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     # задаем функцию, где plaintext это строка, а shift это число,
     # сдвиг на какое число во время зашифровки и дешифровки кода
@@ -21,8 +23,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
                 base = ord("A")  # получаем код числа с которого начинать алфавит, с заглавной а
             else:
                 base = ord("a")  # выбираем в ином случае с первого элемента строчной
-            shifted = (
-                ord(char) - base + shift) % 26 + base
+            shifted = (ord(char) - base + shift) % 26 + base
             # смотрим на номер буквы, которую рассматриваем, вычитаем с чего мы начинали,
             # добавляем сдвиг, потом делим на 26(кол-во букв в английском алфавите)
             # чтобы проверить не вышли ли мы за границу алфавита,

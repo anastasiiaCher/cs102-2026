@@ -1,12 +1,14 @@
 """
-  Encrypts plaintext using a Vigenere cipher.
-  >>> encrypt_vigenere("PYTHON", "A")
-  'PYTHON'
-  >>> encrypt_vigenere("python", "a")
-  'python'
-  >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-  'LXFOPVEFRNHR'
-  """
+Encrypts plaintext using a Vigenere cipher.
+>>> encrypt_vigenere("PYTHON", "A")
+'PYTHON'
+>>> encrypt_vigenere("python", "a")
+'python'
+>>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+'LXFOPVEFRNHR'
+"""
+
+
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     ciphertext = ""  # создаем пустую строку чтоюы записать туда зашифрованный текст
     keyword_index = 0  # индекс буквы которую мы рассматриваем в ключе
