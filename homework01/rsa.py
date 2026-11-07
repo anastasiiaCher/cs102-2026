@@ -2,6 +2,7 @@ import random
 import typing as tp
 
 
+# создаем функцию для определения простое число или нет
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -12,11 +13,18 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n < 2:  # если число меньше двух(0, 1)
+        return False
+    for m in range(2, n):  # задаем переменную m, будем ее перебирать от 1 до n,
+        # чтобы узнать при делении остается остаток или нет
+        if n % m == 0:
+            return False  # если не остается значит число непростое
+
+    return True  # а если остается, то простое
 
 
-def gcd(a: int, b: int) -> int:
+def gcd(a: int, b: int) -> int:  # создаем функцию алгоритма Евклида,
+    # чтобы найти НОД
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -24,32 +32,41 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    if b == 0:  # если число б равно 0,
+        return a  # то возвращаем просто число а
+    return gcd(b, a % b)  # иначе мы возвращаем число а ставшее числом б,
+    # и остаток от делеения а на б. повторяем функцию, уменьшаем число чтобы дойти до 0
 
 
-def multiplicative_inverse(e: int, phi: int) -> int:
+def multiplicative_inverse(e: int, phi: int) -> int:  # создаем функцию
+    # для расширенного алгоритма Евклида
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    if phi == 1:  # обрабатываем граничный случай
+        return 0  # по модулю 1 обратного не существует
+
+    for d in range(1, phi):  # перебираем все числа от 1 до phi-1
+        if (e * d) % phi == 1:  # проверяем условие: e * d mod phi = 1
+            return d  # нашли обратное число
+
+    return 0  # если не нашли, возвращаем 0
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q  #
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)  #
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +99,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
@@ -94,10 +111,10 @@ if __name__ == "__main__":
     print("Generating your public/private keypairs now . . .")
     public, private = generate_keypair(p, q)
     print("Your public key is ", public, " and your private key is ", private)
-    message = input("Enter a message to encrypt with your private key: ")
-    encrypted_msg = encrypt(private, message)
+    message = input("Enter a message to encrypt with your public key: ")
+    encrypted_msg = encrypt(public, message)
     print("Your encrypted message is: ")
     print("".join(map(lambda x: str(x), encrypted_msg)))
-    print("Decrypting message with public key ", public, " . . .")
+    print("Decrypting message with private key ", public, " . . .")
     print("Your message is:")
-    print(decrypt(public, encrypted_msg))
+    print(decrypt(private, encrypted_msg))

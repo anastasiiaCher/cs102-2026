@@ -1,23 +1,46 @@
+"""
+Encrypts plaintext using a Caesar cipher.
+
+>>> encrypt_caesar("PYTHON")
+'SBWKRQ'
+>>> encrypt_caesar("python")
+'sbwkrq'
+>>> encrypt_caesar("Python3.6")
+'Sbwkrq3.6'
+>>> encrypt_caesar("")
+''
+"""
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    # задаем функцию, где plaintext это строка, а shift это число,
+    # сдвиг на какое число во время зашифровки и дешифровки кода
+
+    ciphertext = ""  # задаем пустую строку, где будем собирать зашифрованное слово
+    for char in plaintext:  # проходимся по буквам в обычной строке
+        if char.isalpha():  # первый символ строки это буква?
+            if char.isupper():  # это буква заглавная?
+                base = ord("A")  # получаем код числа с которого начинать алфавит, с заглавной а
+            else:
+                base = ord("a")  # выбираем в ином случае с первого элемента строчной
+            shifted = (ord(char) - base + shift) % 26 + base
+            # смотрим на номер буквы, которую рассматриваем, вычитаем с чего мы начинали,
+            # добавляем сдвиг, потом делим на 26(кол-во букв в английском алфавите)
+            # чтобы проверить не вышли ли мы за границу алфавита,
+            # или чтобы начать с буквы в начале(цикличность) и прибавляем с
+            # чего начинали, чтобы вернуть в код цифры
+            ciphertext += chr(shifted)  # добавляем к нашей пустой строке букву под номером shifted
+        else:  # в других случаях
+            ciphertext += char  # просто добавляем символ к зашифрованной строке
+    return ciphertext  # возврашаем зашифрованную строку
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+    # задаем функцию для дешифровки строки. переменная ciphertext
+    # это зашифрованный текст, а shift это число на которое происходит сдвиг
     """
     Decrypts a ciphertext using a Caesar cipher.
+
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
@@ -27,6 +50,23 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+
+    plaintext = ""  # создаем пустую строку для дешифрованного слова
+    for char in ciphertext:  # проходимся по символам в зашифрованном тексте
+        if char.isalpha():  # если символ буква
+            if char.isupper():  # если буква заглавная
+                base = ord("A")  # то начинаам отсчет с буквы а заглавной
+            else:  # в иных случаях, когда буква строчная
+                base = ord("a")  # начинаем со строчных
+            shifted = (ord(char) - base - shift) % 26 + base
+            # смотрим на номер буквы, которую рассматриваем, вычитаем
+            # с чего мы начинали, вычитаем сдвиг, потом делим на 26
+            # (кол-во букв в английском алфавите) чтобы проверить не вышли ли
+            # мы за границу алфавита,
+            # или чтобы начать с буквы в начале(цикличность) и прибавляем
+            # с чего начинали, чтобы вернуть в код цифры
+            plaintext += chr(shifted)  # добавляем в строку дешифрованного текста
+            # символ под кодом shifted
+        else:  # иначе
+            plaintext += char  # просто добавляем символ без изменений
+    return plaintext  # возвращаем результат дешифровки
