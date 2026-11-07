@@ -9,7 +9,26 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    if keyword == "":
+        raise ValueError("Keyword must not be empty.")
+
+    for i in range(len(plaintext)):
+        char = plaintext[i]
+        key_char = keyword[i % len(keyword)].lower()
+        shift = ord(key_char) - ord("a")
+
+        if "A" <= char <= "Z":
+            first_letter = "A"
+        elif "a" <= char <= "z":
+            first_letter = "a"
+        else:
+            # Символ сохраняется, но его позиция учитывается в ключе.
+            ciphertext += char
+            continue
+
+        position = ord(char) - ord(first_letter)
+        new_position = (position + shift) % 26
+        ciphertext += chr(ord(first_letter) + new_position)
     return ciphertext
 
 
@@ -24,5 +43,23 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    if keyword == "":
+        raise ValueError("Keyword must not be empty.")
+
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+        key_char = keyword[i % len(keyword)].lower()
+        shift = ord(key_char) - ord("a")
+
+        if "A" <= char <= "Z":
+            first_letter = "A"
+        elif "a" <= char <= "z":
+            first_letter = "a"
+        else:
+            plaintext += char
+            continue
+
+        position = ord(char) - ord(first_letter)
+        new_position = (position - shift) % 26
+        plaintext += chr(ord(first_letter) + new_position)
     return plaintext
