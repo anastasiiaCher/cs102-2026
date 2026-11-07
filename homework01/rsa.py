@@ -1,7 +1,8 @@
 import random
 import typing as tp
 
-#создаем функцию для определения простое число или нет
+
+# создаем функцию для определения простое число или нет
 def is_prime(n: int) -> bool:
     """
     Tests to see if a number is prime.
@@ -12,16 +13,17 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    if n < 2: #если число меньше двух(0, 1)
+    if n < 2:  # если число меньше двух(0, 1)
         return False
-    for m in range(2, n):#задаем переменную m, будем ее перебирать от 1 до n,
+    for m in range(2, n):  # задаем переменную m, будем ее перебирать от 1 до n,
         # чтобы узнать при делении остается остаток или нет
-        if n % m == 0: return False #если не остается значит число непростое
+        if n % m == 0:
+            return False  # если не остается значит число непростое
 
-    return True#а если остается, то простое
+    return True  # а если остается, то простое
 
 
-def gcd(a: int, b: int) -> int:#создаем функцию алгоритма Евклида,
+def gcd(a: int, b: int) -> int:  # создаем функцию алгоритма Евклида,
     # чтобы найти НОД
     """
     Euclid's algorithm for determining the greatest common divisor.
@@ -30,13 +32,14 @@ def gcd(a: int, b: int) -> int:#создаем функцию алгоритма
     >>> gcd(3, 7)
     1
     """
-    if b == 0:#если число б равно 0,
-        return a#то возвращаем просто число а
-    return gcd(b, a % b)#иначе мы возвращаем число а ставшее числом б,
+    if b == 0:  # если число б равно 0,
+        return a  # то возвращаем просто число а
+    return gcd(b, a % b)  # иначе мы возвращаем число а ставшее числом б,
     # и остаток от делеения а на б. повторяем функцию, уменьшаем число чтобы дойти до 0
 
 
-def multiplicative_inverse(e: int, phi: int) -> int:#создаем функцию для расширенного алгоритма Евклида
+def multiplicative_inverse(e: int, phi: int) -> int:  # создаем функцию
+    # для расширенного алгоритма Евклида
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
@@ -52,18 +55,17 @@ def multiplicative_inverse(e: int, phi: int) -> int:#создаем функци
 
     return 0  # если не нашли, возвращаем 0
 
-
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
-    elif p == q:
+    if p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    n = p * q#
+    n = p * q  #
 
     # phi = (p-1)(q-1)
-    phi = (p - 1) * (q - 1)#
+    phi = (p - 1) * (q - 1)  #
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -96,7 +98,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
