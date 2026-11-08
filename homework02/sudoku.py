@@ -86,19 +86,24 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    pass
+    result = []
+    row = pos[0]
+    col = pos[1]
+    row_block = row // 3
+    col_block = col // 3
+    for i in range(row_block * 3, (row_block *3) + 3):
+        for k in range(col_block * 3, (col_block *3) + 3):
+            result = result + [grid[i][k]]
+    return result
 
 
-def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
-    """Найти первую свободную позицию в пазле
-    >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
-    (0, 2)
+def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:    """Найти первую свободную позицию в пазл    >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])    (0, 2)
     >>> find_empty_positions([['1', '2', '3'], ['4', '.', '6'], ['7', '8', '9']])
     (1, 1)
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+pass
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
