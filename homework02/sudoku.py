@@ -121,8 +121,14 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
-
+    possible_values = set("123456789")
+    row_values = set(get_row(grid, pos))
+    values = possible_values - row_values
+    col_values = set(get_col(grid, pos))
+    values_new = values - col_values
+    block_values = set(get_block(grid, pos))
+    values_new = values_new - block_values
+    return values_new
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """ Решение пазла, заданного в grid """
