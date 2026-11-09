@@ -115,6 +115,11 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
+    # проверяем последовательность сначала по строцкам, потом столбцам
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if grid[row][col] == ".":
+                return (row, col)
     pass
 
 
@@ -128,6 +133,16 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
+    all_digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+    # делаем множество (set) из свободных мест на стрчоках и стобцах, а также невозможные места
+    row_vals = set(get_row(grid, pos))
+    col_vals = set(get_col(grid, pos))
+    block_vals = set(get_block(grid, pos))
+    
+    # Из всех возможных цифр вычитаем те, что уже заняты в строке, столбце или квадрате
+    # | -- объединение множеств
+    # получаем те цифры, что могут стоять на том месте
+    return all_digits - (row_vals | col_vals | block_vals)
     pass
 
 
