@@ -1,11 +1,15 @@
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
 
+all_digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+# [1:] убирает 0
+
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -19,15 +23,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -97,7 +97,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     start_row = (row // 3) * 3
     start_col = (col // 3) * 3
     return [
-        # обращаемся к нужному месту для числа 
+        # обращаемся к нужному месту для числа
         grid[r][c]
         # берём оставшиеся места в квадрате 3 на 3 от этой извлеченого места
         for r in range(start_row, start_row + 3)
@@ -133,12 +133,11 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    all_digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
     # делаем множество (set) из свободных мест на стрчоках и стобцах, а также невозможные места
     row_vals = set(get_row(grid, pos))
     col_vals = set(get_col(grid, pos))
     block_vals = set(get_block(grid, pos))
-    
+
     # Из всех возможных цифр вычитаем те, что уже заняты в строке, столбце или квадрате
     # | -- объединение множеств
     # получаем те цифры, что могут стоять на том месте
@@ -147,7 +146,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -158,12 +157,44 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
+    # берём свободные
+    pos = find_empty_positions(grid)
+    # Базовый случай: если свободных позиций нет, судоку решен
+    if not pos:
+        return grid
+
+    row, col = pos
+    possible_values = find_possible_values(grid, pos)
+
+    for value in possible_values:
+        grid[row][col] = value  # Поместить значение
+        # Рекурсивно продолжаем решать оставшуюся часть
+        solution = solve(grid)
+        if solution:
+            return solution
+        # Откатываем действие назад (возращаем точку), если зашли в тупик
+        grid[row][col] = "."
     pass
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
+    # проверяем, что нет повторений на строках и столбцах
+    for i in range(9):
+        row = [solution[i][j] for j in range(9)]
+        col = [solution[j][i] for j in range(9)]
+        if set(row) != all_digits or set(col) != all_digits:
+            return False
+
+    # проверяем, что в этом квадрате 3 на 3 нет повторений
+    for row in range(0, 9, 3):
+        for col in range(0, 9, 3):
+            block = [solution[r][c] for r in range(row, row + 3) for c in range(col, col + 3)]
+            if set(block) != all_digits:
+                return False
+
+    return True
     pass
 
 
@@ -188,6 +219,23 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
+    # Берем готовое решение в качестве основы
+    grid = solve(read_sudoku("puzzle1.txt"))
+
+    # Собираем координаты всех 81 клеток(9*9) и перемешиваем их
+    cells = [(r, c) for r in range(9) for c in range(9)]
+    random.shuffle(cells)
+
+    # Ограничиваем N в пределах от 0 до 81
+    N = max(0, min(N, 81))
+
+    # Количество клеток, которые нужно превратить в точки '.'
+    empty_count = 81 - N
+    for i in range(empty_count):
+        r, c = cells[i]
+        grid[r][c] = "."
+
+    return grid
     pass
 
 
