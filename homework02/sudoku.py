@@ -58,6 +58,10 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
+    # распаковка последовательностей
+    row, col = pos
+    # а дальше в ретюрн просто берём индекс
+    return grid[row]
     pass
 
 
@@ -70,6 +74,10 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
+    # также распаковка
+    row, col = pos
+    # уже проходимся циклом по строчкам, беря тот элемент,что нужен  через индекс
+    return [r[col] for r in grid]
     pass
 
 
@@ -83,6 +91,18 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    # распаковка снова
+    row, col = pos
+    # получаем номер стоки и стодбца уже внутри этого кважратика 3 на 3 (он может быть 4 вообще, но первым в этой квадратике)
+    start_row = (row // 3) * 3
+    start_col = (col // 3) * 3
+    return [
+        # обращаемся к нужному месту для числа 
+        grid[r][c]
+        # берём оставшиеся места в квадрате 3 на 3 от этой извлеченого места
+        for r in range(start_row, start_row + 3)
+        for c in range(start_col, start_col + 3)
+    ]
     pass
 
 
