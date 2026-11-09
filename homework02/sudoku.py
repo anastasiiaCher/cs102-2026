@@ -1,3 +1,7 @@
+"""
+Судоку. Лабораторная по програмированию
+"""
+
 import pathlib
 import random
 import typing as tp
@@ -11,7 +15,7 @@ all_digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
-    with path.open() as f:
+    with path.open(encoding="utf-8") as f:
         puzzle = f.read()
     return create_grid(puzzle)
 
@@ -46,7 +50,6 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     # values делает срез списка, вырезая ровно n элементов, начиная с индекса i.
     # скобки дают матрицу из полученного
     return [values[i : i + n] for i in range(0, len(values), n)]
-    pass
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -59,10 +62,10 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['.', '8', '9']
     """
     # распаковка последовательностей
-    row, col = pos
+    row, _ = pos
+    # _ вместо col для чистоты кода
     # а дальше в ретюрн просто берём индекс
     return grid[row]
-    pass
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -75,10 +78,9 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     # также распаковка
-    row, col = pos
+    _, col = pos
     # уже проходимся циклом по строчкам, беря тот элемент,что нужен  через индекс
     return [r[col] for r in grid]
-    pass
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -93,7 +95,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     """
     # распаковка снова
     row, col = pos
-    # получаем номер стоки и стодбца уже внутри этого кважратика 3 на 3 (он может быть 4 вообще, но первым в этой квадратике)
+    # получаем номер стоки и столбца
+    # уже внутри этого кважратика 3 на 3
+    # (он может быть 4 вообще, но первым в этой квадратике)
     start_row = (row // 3) * 3
     start_col = (col // 3) * 3
     return [
@@ -103,7 +107,6 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
         for r in range(start_row, start_row + 3)
         for c in range(start_col, start_col + 3)
     ]
-    pass
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -120,7 +123,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
         for col in range(len(grid[row])):
             if grid[row][col] == ".":
                 return (row, col)
-    pass
+    return None
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -142,7 +145,6 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     # | -- объединение множеств
     # получаем те цифры, что могут стоять на том месте
     return all_digits - (row_vals | col_vals | block_vals)
-    pass
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -174,7 +176,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             return solution
         # Откатываем действие назад (возращаем точку), если зашли в тупик
         grid[row][col] = "."
-    pass
+    return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -195,10 +197,9 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
 
     return True
-    pass
 
 
-def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
+def generate_sudoku(n_elems: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
@@ -219,24 +220,25 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
+    # поменял N на n_elems, чтобы тесты на стиль прошли
     # Берем готовое решение в качестве основы
     grid = solve(read_sudoku("puzzle1.txt"))
+    assert grid is not None  # для mypy
 
     # Собираем координаты всех 81 клеток(9*9) и перемешиваем их
     cells = [(r, c) for r in range(9) for c in range(9)]
     random.shuffle(cells)
 
     # Ограничиваем N в пределах от 0 до 81
-    N = max(0, min(N, 81))
+    count = max(0, min(n_elems, 81))
 
     # Количество клеток, которые нужно превратить в точки '.'
-    empty_count = 81 - N
+    empty_count = 81 - count
     for i in range(empty_count):
         r, c = cells[i]
         grid[r][c] = "."
 
     return grid
-    pass
 
 
 if __name__ == "__main__":
