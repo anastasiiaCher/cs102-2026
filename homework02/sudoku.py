@@ -242,6 +242,6 @@ if __name__ == "__main__":
         display(grid)
         solution = solve(grid)
         if not solution:
-            print(f"Puzzle {fname} can"t be solved")
+            print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
