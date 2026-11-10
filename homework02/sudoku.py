@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random # позволит случайным образом выбирать клетки, из которых будут удалены цифры
 
 T = tp.TypeVar("T")
 
@@ -49,6 +50,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
         group = values [i:i + n] # берется часть элементов из values (с индексами от i до i+n), и эти элементы объединяются в отдельный список определенного размера n
         result.append(group) # добавление нового элемента в конец списка
     return result
+
 
 # нахождение и возвращение всей строки игрового поля Судоку, получение любой строки по ее индексу
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -141,6 +143,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     return possible
 
 
+# функция, самостоятельно решающая Судоку
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """ Решение пазла, заданного в grid """
     """ Как решать Судоку?
@@ -153,15 +156,43 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    pos = find_empty_positions(grid) # поиск пустых клеток
+    if pos is None:
+        return grid # если пустых клеток больше нет, возвращение готового Судоку 
+    else:
+        values = find_possible_values(grid, pos) # получение множества цифр, которые можно поставить в пустую клетку
+        for value in values: # перебор всех элементов по очереди
+            grid[pos[0]][pos[1]] = value # берется нужная строка, а вней клетка и записывается цифра
+            solution = solve(grid) # попытка решить Судоку с новой цифрой
+            if solution is not None:
+                return solution # если решение найдено, оно возвращается
+            grid[pos[0]][pos[1]] = '.' # удаление неправильной цифры
+        return None # все цифры были перебраны, но ни одна не подошла, поэтому решение отсутствует
 
 
+# проверка решения на правильность
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+
+    for row in solution:
+        if set(row) != set("123456789"):
+            return False # если множества не равны, есть неправильная строка
+            
+    for col in range(9):
+        column = get_col(solution, (0, col)) # получение всех значений выбранного столбца
+        if set(column) != set("123456789"):
+            return False # если множества не равны, есть неправильный столбец
+
+    for row in range(0, 9, 3):
+        for col in range(0, 9, 3): # перебор координат каждого квадрата
+            block = get_block(solution, (row, col)) # получение всех значений выбранного квадрата
+            if set(block) != set("123456789"):
+                return False # если множества не равны, есть неправильный квадрат
+    return True
 
 
+# создание Судоку
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
@@ -183,7 +214,19 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    empty = ['.'] * 81 # создание заготовки, которая будет заполняться
+    grid = group(empty, 9) # деление на группы по 9 элементов
+    solved = solve(grid) # запуск функции, решающей судоку
+    positions = []
+    for row in range(9): # перебор всех строк
+        for col in range(9): # перебор всех столбцов
+            positions.append((row, col)) # добавление в список координаты клетки
+    random.shuffle(positions) # перемешивает все координаты в списке positions
+    to_remove = 81 - N # поиск количества очищеных клеток 
+    for i in range(to_remove):
+        pos = positions.pop() # pop забирает последнюю координату и удаляет ее, сохраняя в pos
+        solved[pos[0]][pos[1]] = '.' # находит клетку по координатам pos и заменяет ее на точку  
+    return solved
 
 
 if __name__ == "__main__":
