@@ -12,27 +12,30 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     return create_grid(puzzle)
 
 
+# создаем игровое поле grid
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
-    digits = [c for c in puzzle if c in "123456789."]
-    grid = group(digits, 9)
+    digits = [c for c in puzzle if c in "123456789."] # списковое включение - перебор всех элементов и добавление в новый список, подходящих под условие
+    grid = group(digits, 9) # деление списка из 81 символа и деление на группы по 9 элементов (каждая строка содержит по 9 клеток)
     return grid
 
 
+# берется игровое поле grid и выводится в удобном виде
 def display(grid: tp.List[tp.List[str]]) -> None:
     """Вывод Судоку """
-    width = 2
-    line = "+".join(["-" * (width * 3)] * 3)
+    width = 2  # задается ширина отображения каждой клетки
+    line = "+".join(["-" * (width * 3)] * 3) # создание горизонтальной черты
     for row in range(9):
-        print(
+        print( # выведение целой строки судоку
             "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9) # перебор каждой клетки, выравнивание по центру, добавление вертикальной черты
             )
         )
         if str(row) in "25":
-            print(line)
-    print()
+            print(line) # если строка 2 или 5, выводится горизонтальная линия
+    print() # пустая строка, чтобы новый вывод начинался с новой строки
 
 
+# разбиение одного большого списка элементов на несколько маленьких списков по n элементов в каждом
 def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
     Сгруппировать значения values в список, состоящий из списков по n элементов
@@ -41,9 +44,13 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+    result = []
+    for i in range (0, len(values), n): # запуск цикла, перебирающего индексы исходного списка, начиная с 0 и увеличивая их каждый раз на n
+        group = values [i:i + n] # берется часть элементов из values (с индексами от i до i+n), и эти элементы объединяются в отдельный список определенного размера n
+        result.append(group) # добавление нового элемента в конец списка
+    return result
 
-
+# нахождение и возвращение всей строки игрового поля Судоку, получение любой строки по ее индексу
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
     >>> get_row([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
@@ -53,9 +60,11 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    pass
+    row = pos[0] # получение индекса строки из координат и сохранение его в переменную row
+    return grid[row] # возвращение из игрового поля grid всю строку с индексом row
 
 
+# нахождение и возвращение всего столбца игрового поля Судоку, получение любого столбца по его индексу
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера столбца, указанного в pos
     >>> get_col([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
@@ -65,9 +74,14 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    pass
+    col = pos[1] # получение индекса столбца из координат и сохранение его в переменную col
+    column = []
+    for row in grid: # запусr цикл, перебирающего по очереди все строки игрового поля
+        column.append(row[col]) # берется элемент из текущей строки с индексом col и добавляет его в список column
+    return column
 
 
+# получение всех 9 значений из маленького квадрата 3 на 3
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения из квадрата, в который попадает позиция pos
     >>> grid = read_sudoku('puzzle1.txt')
@@ -78,9 +92,18 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    pass
+    row = pos[0]
+    col = pos[1]
+    start_row = (row // 3) * 3 # получение номера группы и индекса первой строки
+    start_col = (col // 3) * 3 # получение номера группы и индекса первого столбца
+    block = []
+    for r in range(start_row, start_row + 3): # запуск цикла, перебирающего все 3 строки одного квадрата
+        for c in range(start_col, start_col + 3): # запуск цикла, перебирающего все 3 столбца одного квадрата
+            block.append(grid[r][c]) # находится нужная клетка по строке r и столбцу c и найденное значение добавляется в конец списка
+    return block
 
 
+# поиск пустой клетки
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -90,9 +113,14 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+    for r in range(len(grid)): # перебор всех строк (программа сама определяет размер)
+        for c in range(len(grid[r])): # перебор всех клеток в текущей строке
+            if grid[r][c] == '.':
+                return (r, c) # возвращение координат найденной пустой клетки
+    return None # пустые клетки отсутствуют
 
 
+# поиск возможных значений для пустой клетки
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
@@ -103,7 +131,14 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    row = get_row(grid, pos) # получение всех значений строки, в которой находится выбранная клетка
+    col = get_col(grid, pos) # получение всех значений столбца, в котором находится выбранная клетка
+    block = get_block(grid, pos) # получение всех значений квадрата, в котором находится выбранная клетка
+    possible = set("123456789") # множество цифр от 1 до 9
+    possible.difference_update(row) # удаление из possible уже имеющихся цифр в строке
+    possible.difference_update(col) # удаление из possible уже имеющихся цифр в столбце
+    possible.difference_update(block) # удаление из possible уже имеющихся цифр в квадрате
+    return possible
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
