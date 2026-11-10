@@ -102,7 +102,18 @@ def find_empty_positions(
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+    row_index = 0
+    for row in grid:
+        col_index = 0
+        for i in row:   
+            if i == ".":
+                empty = (row_index, col_index)
+                return empty
+            col_index += 1
+        row_index += 1
+
+    return None
+    
 
 
 def find_possible_values(
