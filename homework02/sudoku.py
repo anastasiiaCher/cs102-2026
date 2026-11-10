@@ -105,7 +105,7 @@ def find_empty_positions(
     row_index = 0
     for row in grid:
         col_index = 0
-        for i in row:   
+        for i in row:
             if i == ".":
                 empty = (row_index, col_index)
                 return empty
@@ -113,7 +113,6 @@ def find_empty_positions(
         row_index += 1
 
     return None
-    
 
 
 def find_possible_values(
@@ -128,7 +127,13 @@ def find_possible_values(
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    all_values = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+    used_in_row = set(get_row(grid, pos))
+    used_in_col = set(get_col(grid, pos))
+    used_in_block = set(get_block(grid, pos))
+
+    return all_values - used_in_row - used_in_col - used_in_block
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
