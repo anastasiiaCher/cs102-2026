@@ -148,6 +148,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             return grid
         # 3. Откат (Backtracking): если не вышло, убираем цифру и пробуем следующую
         grid[row][col] = "."
+    return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
