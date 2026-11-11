@@ -148,13 +148,51 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    pos = find_empty_positions(grid)
+
+    if pos is None:
+        return grid
+
+    possible_values = find_possible_values(grid, pos)
+
+    for value in possible_values:
+
+        grid[pos[0]][pos[1]] = value
+        solution = solve(grid)
+
+        if solution is not None:
+            return solution
+
+        else:
+            grid[pos[0]][pos[1]] = "."
+
+    else:
+        return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
-    pass
+
+    m = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+    for r in range(9):
+        row_values = get_row(solution, (r, 0))
+        if set(row_values) != m:
+            return False
+
+    for c in range(9):
+        col_values = get_col(solution, (0, c))
+        if set(col_values) != m:
+            return False
+
+    for r in (0, 3, 6):
+        for c in (0, 3, 6):
+            block_values = get_block(solution, (r, c))
+            if set(block_values) != m:
+                return False
+
+    return True
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
