@@ -15,9 +15,7 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
 
 # создаем игровое поле grid
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
-    digits = [
-        c for c in puzzle if c in "123456789."
-    ]  # отбор допустимых символов для Судоку
+    digits = [c for c in puzzle if c in "123456789."]  # отбор допустимых символов для Судоку
     grid = group(digits, 9)  # разделение цифр на строки по 9 элементов
     return grid
 
@@ -31,9 +29,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
         print(  # выведение целой строки судоку
             "".join(
                 grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(
-                    9
-                )  # перебор каждой клетки, выравнивание по центру, добавление вертикальной черты
+                for col in range(9)  # перебор каждой клетки, выравнивание по центру, добавление вертикальной черты
             )
         )
         if str(row) in "25":
@@ -52,9 +48,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
     result = []
     for i in range(0, len(values), n):  # перебор индексов с шагом n
-        part = values[
-            i : i + n
-        ]  # объединение в отдельный список определенного размера n
+        part = values[i : i + n]  # объединение в отдельный список определенного размера n
         result.append(part)  # добавление нового элемента в конец списка
     return result
 
@@ -69,9 +63,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row = pos[
-        0
-    ]  # получение индекса строки из координат и сохранение его в переменную row
+    row = pos[0]  # получение индекса строки из координат и сохранение его в переменную row
     return grid[row]  # возвращение из игрового поля grid всю строку с индексом row
 
 
@@ -85,14 +77,10 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    col = pos[
-        1
-    ]  # получение индекса столбца из координат и сохранение его в переменную col
+    col = pos[1]  # получение индекса столбца из координат и сохранение его в переменную col
     column = []
     for row in grid:  # запуск цикла, перебирающего по очереди все строки игрового поля
-        column.append(
-            row[col]
-        )  # берется элемент из текущей строки с индексом col и добавляет его в список column
+        column.append(row[col])  # берется элемент из текущей строки с индексом col и добавляет его в список column
     return column
 
 
@@ -112,12 +100,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     start_row = (row // 3) * 3  # получение номера группы и индекса первой строки
     start_col = (col // 3) * 3  # получение номера группы и индекса первого столбца
     block = []
-    for r in range(
-        start_row, start_row + 3
-    ):  # запуск цикла, перебирающего все 3 строки одного квадрата
-        for c in range(
-            start_col, start_col + 3
-        ):  # запуск цикла, перебирающего все 3 столбца одного квадрата
+    for r in range(start_row, start_row + 3):  # запуск цикла, перебирающего все 3 строки одного квадрата
+        for c in range(start_col, start_col + 3):  # запуск цикла, перебирающего все 3 столбца одного квадрата
             block.append(grid[r][c])  # добавление значения клетки в список
     return block
 
@@ -142,9 +126,7 @@ def find_empty_positions(
 
 
 # поиск возможных значений для пустой клетки
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -154,21 +136,13 @@ def find_possible_values(
     >>> values == {'2', '5', '9'}
     True
     """
-    row = get_row(
-        grid, pos
-    )  # получение всех значений строки, в которой находится выбранная клетка
-    col = get_col(
-        grid, pos
-    )  # получение всех значений столбца, в котором находится выбранная клетка
-    block = get_block(
-        grid, pos
-    )  # получение всех значений квадрата, в котором находится выбранная клетка
+    row = get_row(grid, pos)  # получение всех значений строки, в которой находится выбранная клетка
+    col = get_col(grid, pos)  # получение всех значений столбца, в котором находится выбранная клетка
+    block = get_block(grid, pos)  # получение всех значений квадрата, в котором находится выбранная клетка
     possible = set("123456789")  # множество цифр от 1 до 9
     possible.difference_update(row)  # удаление из possible уже имеющихся цифр в строке
     possible.difference_update(col)  # удаление из possible уже имеющихся цифр в столбце
-    possible.difference_update(
-        block
-    )  # удаление из possible уже имеющихся цифр в квадрате
+    possible.difference_update(block)  # удаление из possible уже имеющихся цифр в квадрате
     return possible
 
 
@@ -189,13 +163,9 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     if pos is None:
         return grid  # если пустых клеток больше нет, возвращение готового Судоку
 
-    values = find_possible_values(
-        grid, pos
-    )  # получение множества цифр, которые можно поставить в пустую клетку
+    values = find_possible_values(grid, pos)  # получение множества цифр, которые можно поставить в пустую клетку
     for value in values:  # перебор всех элементов по очереди
-        grid[pos[0]][
-            pos[1]
-        ] = value  # берется нужная строка, а вней клетка и записывается цифра
+        grid[pos[0]][pos[1]] = value  # берется нужная строка, а вней клетка и записывается цифра
         solution = solve(grid)  # попытка решить Судоку с новой цифрой
         if solution is not None:
             return solution  # если решение найдено, оно возвращается
@@ -213,17 +183,13 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False  # если множества не равны, есть неправильная строка
 
     for col in range(9):
-        column = get_col(
-            solution, (0, col)
-        )  # получение всех значений выбранного столбца
+        column = get_col(solution, (0, col))  # получение всех значений выбранного столбца
         if set(column) != set("123456789"):
             return False  # если множества не равны, есть неправильный столбец
 
     for row_index in range(0, 9, 3):
         for col in range(0, 9, 3):  # перебор координат каждого квадрата
-            block = get_block(
-                solution, (row_index, col)
-            )  # получение всех значений выбранного квадрата
+            block = get_block(solution, (row_index, col))  # получение всех значений выбранного квадрата
             if set(block) != set("123456789"):
                 return False  # если множества не равны, есть неправильный квадрат
     return True
@@ -265,12 +231,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     random.shuffle(positions)  # перемешивает все координаты в списке positions
     to_remove = 81 - N  # поиск количества очищеных клеток
     for _ in range(to_remove):
-        pos = (
-            positions.pop()
-        )  # pop забирает последнюю координату и удаляет ее, сохраняя в pos
-        solved[pos[0]][
-            pos[1]
-        ] = "."  # находит клетку по координатам pos и заменяет ее на точку
+        pos = positions.pop()  # pop забирает последнюю координату и удаляет ее, сохраняя в pos
+        solved[pos[0]][pos[1]] = "."  # находит клетку по координатам pos и заменяет ее на точку
     return solved
 
 
