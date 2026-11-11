@@ -12,7 +12,7 @@ def is_prime(n: int) -> bool:
     """
     if n < 2:
         return False
-    for i in range(2, int(n ** 0.5) + 1):
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return False
     return True
@@ -62,9 +62,9 @@ def multiplicative_inverse(e: int, phi: int) -> int:
 
 def generate_keypair(p: int, q: int) -> tuple:
     if not (is_prime(p) and is_prime(q)):
-        raise ValueError('Both numbers must be prime.')
+        raise ValueError("Both numbers must be prime.")
     elif p == q:
-        raise ValueError('p and q cannot be equal')
+        raise ValueError("p and q cannot be equal")
 
     n = p * q
     phi = (p - 1) * (q - 1)
@@ -77,11 +77,3 @@ def generate_keypair(p: int, q: int) -> tuple:
 
     d = multiplicative_inverse(e, phi)
     return ((e, n), (d, n))
-
-
-
-
-
-
-
-
