@@ -1,2 +1,6 @@
-def text():
-    return message
+"""Модуль для первой лабораторной работы."""
+
+
+def text() -> str:
+    """Возвращает строку 'message'."""
+    return "message"
