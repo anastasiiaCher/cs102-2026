@@ -209,7 +209,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
 
     empty_grid = [["." for _ in range(9)] for _ in range(9)]
     solved_grid = solve(empty_grid)
-
+    assert solved_grid is not None  #
     grid = [row[:] for row in solved_grid]
 
     positions = [(r, c) for r in range(9) for c in range(9)]
