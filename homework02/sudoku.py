@@ -1,5 +1,6 @@
 import pathlib
 import typing as tp
+import random
 
 T = tp.TypeVar("T")
 
@@ -134,17 +135,25 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    result = []
+    result = set()
     flag = False
-    for i in range(0,10):
+    row = (pos[0] // 3)*3
+    col = (pos[1] // 3)*3
+    for i in range(1,10):
         for k in range(len(grid)):
-            if grid[pos[1]][k] == i:
+            if grid[k][pos[1]] == str(i):
                 flag = True
         for u in grid[pos[0]]:
-            if u == i:
+            if u == str(i):
                 flag = True
+        for n in range(row, row+3):
+            for m in range(col, col+3):
+                if grid[n][m] == str(i):
+                    flag = True
         if flag == False:
-            result.append(i)
+            result.add(str(i))
+        flag = False
+        
     return result
         
             
@@ -162,13 +171,59 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    pos = find_empty_positions(grid)
+    if pos == None:
+        return grid
 
+    possible = find_possible_values(grid, pos)
+    for value in possible:
+        grid[pos[0]][pos[1]] = value      
+        result = solve(grid)            
+        if result != None:                 
+            return result                  
+        grid[pos[0]][pos[1]] = '.'         
+
+    return None  
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
-    pass
+
+    """Если решение solution верно, то вернуть True, в противном случае False"""
+    for i in range(9):
+        row = get_row(solution, (i, 0))
+        if '.' in row:
+            return False
+        flag = False
+        for k in range(1, 10):
+            if str(k) not in row:
+                flag = True
+        if flag == True:
+            return False
+
+    for i in range(9):
+        col = get_col(solution, (0, i))
+        if '.' in col:
+            return False
+        flag = False
+        for k in range(1, 10):
+            if str(k) not in col:
+                flag = True
+        if flag == True:
+            return False
+
+    
+    for row in range(0, 9, 3):
+        for col in range(0, 9, 3):
+            block = get_block(solution, (row, col))
+            if '.' in block:
+                return False
+            flag = False
+            for k in range(1, 10):
+                if str(k) not in block:
+                    flag = True
+            if flag == True:
+                return False
+
+    return True
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -192,7 +247,30 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    grid = [
+        ['5', '3', '4', '6', '7', '8', '9', '1', '2'],
+        ['6', '7', '2', '1', '9', '5', '3', '4', '8'],
+        ['1', '9', '8', '3', '4', '2', '5', '6', '7'],
+        ['8', '5', '9', '7', '6', '1', '4', '2', '3'],
+        ['4', '2', '6', '8', '5', '3', '7', '9', '1'],
+        ['7', '1', '3', '9', '2', '4', '8', '5', '6'],
+        ['9', '6', '1', '5', '3', '7', '2', '8', '4'],
+        ['2', '8', '7', '4', '1', '9', '6', '3', '5'],
+        ['3', '4', '5', '2', '8', '6', '1', '7', '9']
+    ]
+    if N >= 81:
+            return grid
+    counter = 0
+    while counter != (81-N):
+        row = random.randint(0,8)
+        col = random.randint(0,8)
+        if grid[row][col] == '.':
+            continue
+        else:
+            grid[row][col] = '.'
+            counter += 1
+    return grid
+
 
 
 if __name__ == "__main__":
