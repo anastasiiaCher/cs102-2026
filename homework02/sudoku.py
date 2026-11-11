@@ -5,7 +5,7 @@ T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -19,15 +19,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -43,9 +39,10 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
     result = []
     for i in range(0, len(values), n):
-        group = values[i:i + n]
-        result.append(group) # result = result + [group]
+        group = values[i : i + n]
+        result.append(group)  # result = result + [group]
     return result
+
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
@@ -76,6 +73,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
         result.append(list)
     return result
 
+
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения из квадрата, в который попадает позиция pos
     >>> grid = read_sudoku('puzzle1.txt')
@@ -91,8 +89,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     col = pos[1]
     row_block = row // 3
     col_block = col // 3
-    for i in range(row_block * 3, (row_block *3) + 3):
-        for k in range(col_block * 3, (col_block *3) + 3):
+    for i in range(row_block * 3, (row_block * 3) + 3):
+        for k in range(col_block * 3, (col_block * 3) + 3):
             result = result + [grid[i][k]]
     return result
 
@@ -107,7 +105,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
 
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            if grid[row][col] == '.':
+            if grid[row][col] == ".":
                 return (row, col)
 
 
@@ -130,8 +128,9 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     values_new = values_new - block_values
     return values_new
 
+
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -153,12 +152,13 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             if solution:
                 return solution
             else:
-                grid[pos[0]][pos[1]] = '.'
+                grid[pos[0]][pos[1]] = "."
+
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
-    check = set('123456789')
+    check = set("123456789")
     for row in solution:
         if set(row) != check:
             return False
