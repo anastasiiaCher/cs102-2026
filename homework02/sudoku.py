@@ -181,18 +181,17 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
-    # TODO: Add doctests with bad puzzles
-    # проверяем, что нет повторений на строках и столбцах
+    # Проверяем строки и столбцы
     for i in range(9):
         row = [solution[i][j] for j in range(9)]
         col = [solution[j][i] for j in range(9)]
         if set(row) != all_digits or set(col) != all_digits:
             return False
 
-    # проверяем, что в этом квадрате 3 на 3 нет повторений
-    for row in range(0, 9, 3):
-        for col in range(0, 9, 3):
-            block = [solution[r][c] for r in range(row, row + 3) for c in range(col, col + 3)]
+    # Проверяем квадраты 3 на 3
+    for start_row in range(0, 9, 3):
+        for start_col in range(0, 9, 3):
+            block = [solution[r][c] for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)]
             if set(block) != all_digits:
                 return False
 
@@ -230,11 +229,11 @@ def generate_sudoku(n_elems: int) -> tp.List[tp.List[str]]:
     random.shuffle(cells)
 
     # Ограничиваем N в пределах от 0 до 81
-    count = max(0, min(n_elems, 81))
+    total_elems: int = max(0, min(int(n_elems), 81))
 
     # Количество клеток, которые нужно превратить в точки '.'
-    empty_count = 81 - count
-    for i in range(empty_count):
+    dots_count: int = 81 - total_elems
+    for i in range(dots_count):
         r, c = cells[i]
         grid[r][c] = "."
 
