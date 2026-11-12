@@ -70,9 +70,9 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     """
     result = []
     col = pos[1]
-    for row in range(len(grid)):
-        list = grid[row][col]
-        result.append(list)
+    #for row in range(len(grid)):
+     #   list = grid[row][col]
+      #  result.append(list)
     kk = [grid[row][col] for row in range(len(grid))]
     return kk
 
