@@ -129,6 +129,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     values_new = values - col_values
     block_values = set(get_block(grid, pos))
     values_new = values_new - block_values
+    values_new = block_values - block_values - col_values - row_values
     return values_new
 
 
