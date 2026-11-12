@@ -11,6 +11,19 @@ T = tp.TypeVar("T")
 all_digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 # [1:] убирает 0
 
+# чтобы не было ошибка с файлом puzzle1.txt
+BASE_PUZZLE = """
+53..7....
+6..195...
+.98....6.
+8...6...3
+4..8.3..1
+7...2...6
+.6....28.
+...419..5
+....8..79
+"""
+
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
     """Прочитать Судоку из указанного файла"""
@@ -221,7 +234,7 @@ def generate_sudoku(n_elems: int) -> tp.List[tp.List[str]]:
     """
     # поменял N на n_elems, чтобы тесты на стиль прошли
     # Берем готовое решение в качестве основы
-    grid = solve(read_sudoku("puzzle1.txt"))
+    grid = solve(create_grid(BASE_PUZZLE))
     assert grid is not None  # для mypy
 
     # Собираем координаты всех 81 клеток(9*9) и перемешиваем их
