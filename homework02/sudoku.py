@@ -41,7 +41,9 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     for i in range(0, len(values), n):
         group = values[i : i + n]
         result.append(group)  # result = result + [group]
-    return result
+    ll = [values[i : i + n] for i in range(0, len(values), n)]
+    return ll
+
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -72,7 +74,6 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
         list = grid[row][col]
         result.append(list)
     return result
-
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения из квадрата, в который попадает позиция pos
