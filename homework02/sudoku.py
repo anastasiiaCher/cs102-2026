@@ -73,7 +73,8 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     for row in range(len(grid)):
         list = grid[row][col]
         result.append(list)
-    return result
+    kk = [grid[row][col] for row in range(len(grid))]
+    return kk
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения из квадрата, в который попадает позиция pos
