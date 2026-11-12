@@ -38,10 +38,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    result = []
-    for i in range(0, len(values), n):
-        result.append(values[i : i + n])
-    return result
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -67,10 +64,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     col = pos[1]
-    result = []
-    for row in grid:
-        result.append(row[col])
-    return result
+    return [row[col] for row in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -87,11 +81,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     col = pos[1]
     start_row = 3 * (row // 3)
     start_col = 3 * (col // 3)
-    block = []
-    for r in range(start_row, start_row + 3):
-        for c in range(start_col, start_col + 3):
-            block.append(grid[r][c])
-    return block
+    return [grid[r][c] for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -103,9 +93,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if grid[row][col] == ".":
+    for row, row_values in enumerate(grid):
+        for col, value in enumerate(row_values):
+            if value == ".":
                 return (row, col)
     return None
 
@@ -160,7 +150,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False
         if set(get_col(solution, (0, i))) != digits:
             return False
-    for row in range(0, 9, 3):
+    for row in range(0, 9, 3):  # достаточно взять по одной клетке из каждого квадрата, удобнее всего левые верхние углы
         for col in range(0, 9, 3):
             if set(get_block(solution, (row, col))) != digits:
                 return False
@@ -188,14 +178,16 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = solve([["."] * 9 for _ in range(9)])
+    grid = solve([["."] * 9 for _ in range(9)])  # получаем полностью заполненное правильное судоку: решаем пустое поле
     assert grid is not None
-    N = min(N, 81)
+    N = min(N, 81)  # клеток всего 81, поэтому N больше 81 не бывает (тест передаёт 1000)
     erased = 0
-    while erased < 81 - N:
+    while erased < 81 - N:  # стираем 81 - N случайных клеток
         row = random.randint(0, 8)
         col = random.randint(0, 8)
-        if grid[row][col] != ".":
+        if (
+            grid[row][col] != "."
+        ):  # эту клетку ещё не стирали (случайная клетка может попасться повторно — уже стёртую второй раз не считаем)
             grid[row][col] = "."
             erased += 1
     return grid
