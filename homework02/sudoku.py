@@ -91,7 +91,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     col_block = col // 3
     for i in range(row_block * 3, (row_block * 3) + 3):
         for k in range(col_block * 3, (col_block * 3) + 3):
-            result = result + [grid[i][k]]
+            result.append(grid[i][k])
     return result
 
 
@@ -107,6 +107,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
         for col in range(len(grid[row])):
             if grid[row][col] == ".":
                 return (row, col)
+    return None
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -153,6 +154,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
                 return solution
             else:
                 grid[pos[0]][pos[1]] = "."
+    return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -196,7 +198,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     grid = create_grid("." * 81)
-    grid = solve(grid)
+    solve(grid)
 
     for row in range(9):
         for col in range(9):
