@@ -12,12 +12,12 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     for index, i in enumerate(plaintext):
         key_index = index % len(keyword)
         key_letter = keyword[key_index]
-        if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if i.isupper():
             shift = ord(key_letter.upper()) - ord("A")
             position = ord(i) - ord("A")
             new_position = (position + shift) % 26
             ciphertext += chr(new_position + ord("A"))
-        elif i in "abcdefghijklmnopqrstuvwxyz":
+        elif i.islower():
             shift = ord(key_letter.upper()) - ord("A")
             position = ord(i) - ord("a")
             new_position = (position + shift) % 26
@@ -41,12 +41,12 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     for index, i in enumerate(ciphertext):
         key_index = index % len(keyword)
         key_letter = keyword[key_index]
-        if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if i.isupper():
             shift = ord(key_letter.upper()) - ord("A")
             position = ord(i) - ord("A")
             new_position = (position - shift) % 26
             plaintext += chr(new_position + ord("A"))
-        elif i in "abcdefghijklmnopqrstuvwxyz":
+        elif i.islower():
             shift = ord(key_letter.upper()) - ord("A")
             position = ord(i) - ord("a")
             new_position = (position - shift) % 26
