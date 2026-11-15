@@ -90,7 +90,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return block
 
 
-def find_empty_positions(grid: tp.List[tp.List[str]],) -> tp.Optional[tp.Tuple[int, int]]:
+def find_empty_positions(
+    grid: tp.List[tp.List[str]],
+) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
     (0, 2)
@@ -117,7 +119,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     True
     """
     possible_digits = {str(i) for i in range(1, 10)}
-    forbidden = (set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos)))
+    forbidden = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
     return possible_digits - forbidden
 
 
