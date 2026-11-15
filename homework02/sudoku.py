@@ -150,7 +150,25 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    full = set("123456789")
+    n = len(solution)
+    for r in range(n):
+        if set(solution[r]) != full:
+            return False
+    for c in range(n):
+        if {solution[r][c] for r in range(n)} != full:
+            return False
+    for br in range(0, n, 3):
+        for bc in range(0, n, 3):
+            block = {
+                solution[r][c]
+                for r in range(br, br + 3)
+                for c in range(bc, bc + 3)
+            }
+            if block != full:
+                return False
+    return True
+
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
