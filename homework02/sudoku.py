@@ -136,7 +136,8 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
     pos = find_empty_positions(grid)
-    if pos == None:
+
+    if pos is None:
         return grid
     possible_values = find_possible_values(grid, pos)
 
@@ -201,7 +202,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     empty_sudoku = []
     for _ in range(9):
         empty_sudoku.append(["."] * 9)
+        
     full_sudoku = solve(empty_sudoku)
+    if full_sudoku is None:
+        raise ValueError("Не удалось сгенерировать судоку")
     new_sudoku = full_sudoku
     N = max(0, min(N, 81))
     to_remove = 81 - N
