@@ -36,11 +36,17 @@ def display(grid: tp.List[tp.List[str]]) -> None:
 def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     """
     Сгруппировать значения values в список, состоящий из списков по n элементов
+
     >>> group([1,2,3,4], 2)
     [[1, 2], [3, 4]]
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
+    result = []
+    for i in range(0, len(values), n):
+        result.append(values[i:i + n])
+    return result
+
     pass
 
 
