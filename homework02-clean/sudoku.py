@@ -25,13 +25,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     line = "+".join(["-" * (width * 3)] * 3)
 
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width)
-                + ("|" if col in (2, 5) else "")
-                for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if col in (2, 5) else "") for col in range(9)))
 
         if row in (2, 5):
             print(line)
@@ -50,7 +44,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     if n <= 0:
         raise ValueError("Размер группы должен быть положительным")
 
-    return [values[i:i + n] for i in range(0, len(values), n)]
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(
@@ -106,11 +100,7 @@ def get_block(
     first_row = (row_index // 3) * 3
     first_col = (col_index // 3) * 3
 
-    return [
-        grid[row][col]
-        for row in range(first_row, first_row + 3)
-        for col in range(first_col, first_col + 3)
-    ]
+    return [grid[row][col] for row in range(first_row, first_row + 3) for col in range(first_col, first_col + 3)]
 
 
 def find_empty_positions(
@@ -150,11 +140,7 @@ def find_possible_values(
     if grid[row_index][col_index] != ".":
         return set()
 
-    used_values = (
-        set(get_row(grid, pos))
-        | set(get_col(grid, pos))
-        | set(get_block(grid, pos))
-    )
+    used_values = set(get_row(grid, pos)) | set(get_col(grid, pos)) | set(get_block(grid, pos))
 
     return set("123456789") - used_values
 
@@ -211,10 +197,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 
     # Проверяем столбцы.
     for col_index in range(9):
-        column = {
-            solution[row_index][col_index]
-            for row_index in range(9)
-        }
+        column = {solution[row_index][col_index] for row_index in range(9)}
         if column != required_values:
             return False
 
@@ -222,9 +205,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for first_row in range(0, 9, 3):
         for first_col in range(0, 9, 3):
             block = {
-                solution[row][col]
-                for row in range(first_row, first_row + 3)
-                for col in range(first_col, first_col + 3)
+                solution[row][col] for row in range(first_row, first_row + 3) for col in range(first_col, first_col + 3)
             }
             if block != required_values:
                 return False
@@ -251,40 +232,22 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solve(grid))
     True
     """
-    base_grid = [
-        [(row * 3 + row // 3 + col) % 9 for col in range(9)]
-        for row in range(9)
-    ]
+    base_grid = [[(row * 3 + row // 3 + col) % 9 for col in range(9)] for row in range(9)]
 
     row_groups = random.sample(range(3), 3)
-    rows = [
-        group_index * 3 + row
-        for group_index in row_groups
-        for row in random.sample(range(3), 3)
-    ]
+    rows = [group_index * 3 + row for group_index in row_groups for row in random.sample(range(3), 3)]
 
     col_groups = random.sample(range(3), 3)
-    cols = [
-        group_index * 3 + col
-        for group_index in col_groups
-        for col in random.sample(range(3), 3)
-    ]
+    cols = [group_index * 3 + col for group_index in col_groups for col in random.sample(range(3), 3)]
 
     digits = random.sample("123456789", 9)
 
-    grid = [
-        [digits[base_grid[row][col]] for col in cols]
-        for row in rows
-    ]
+    grid = [[digits[base_grid[row][col]] for col in cols] for row in rows]
 
     filled_cells = max(0, min(N, 81))
     empty_cells_count = 81 - filled_cells
 
-    all_positions = [
-        (row, col)
-        for row in range(9)
-        for col in range(9)
-    ]
+    all_positions = [(row, col) for row in range(9) for col in range(9)]
 
     for row, col in random.sample(all_positions, empty_cells_count):
         grid[row][col] = "."
