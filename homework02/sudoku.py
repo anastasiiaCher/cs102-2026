@@ -1,6 +1,6 @@
 import pathlib
 import typing as tp
-
+import random
 T = tp.TypeVar("T")
 
 
@@ -137,14 +137,12 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     pos = find_empty_positions(grid)
     if pos is None:
         return grid
-
     row, col = pos
     for value in sorted(find_possible_values(grid, pos)):
         grid[row][col] = value
         if solve(grid) is not None:
             return grid
         grid[row][col] = '.'
-
     return None
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -192,7 +190,12 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    grid = solve([['.' for _ in range(9)] for _ in range(9)])
+    cells = [(r, c) for r in range(9) for c in range(9)]
+    random.shuffle(cells)
+    for r, c in cells[N:]:
+        grid[r][c] = '.'
+    return grid
 
 
 if __name__ == "__main__":
