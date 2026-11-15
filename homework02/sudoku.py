@@ -1,6 +1,6 @@
 import pathlib
-import typing as tp
 import random
+import typing as tp
 
 T = tp.TypeVar("T")
 
@@ -24,7 +24,12 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
+        print(
+            "".join(
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
+                for col in range(9)
+            )
+        )
         if str(row) in "25":
             print(line)
     print()
@@ -100,7 +105,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return block
 
 
-def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
+def find_empty_positions(
+    grid: tp.List[tp.List[str]],
+) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле"""
     for row in range(len(grid)):
         for col in range(len(grid[row])):
@@ -110,7 +117,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     return None
 
 
-def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
+def find_possible_values(
+    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
+) -> tp.Set[str]:
     """Вернуть множество возможных значений для указанной позиции"""
     possible_values = set("123456789")
 
