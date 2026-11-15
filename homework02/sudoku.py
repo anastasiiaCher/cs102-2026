@@ -202,7 +202,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     empty_sudoku = []
     for _ in range(9):
         empty_sudoku.append(["."] * 9)
-        
     full_sudoku = solve(empty_sudoku)
     if full_sudoku is None:
         raise ValueError("Не удалось сгенерировать судоку")
