@@ -179,7 +179,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     grid = [["."] * 9 for _ in range(9)]
-    grid = solve(grid)
+    solution = solve(grid)
+    if solution is None:
+        raise ValueError("Sudoku solution not found")
+    grid = solution
     N = min(N, 81)
     cells = [(i, j) for i in range(9) for j in range(9)]
     random.shuffle(cells)
