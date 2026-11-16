@@ -108,7 +108,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
 def find_empty_positions(
     grid: tp.List[tp.List[str]],
 ) -> tp.Optional[tp.Tuple[int, int]]:
-    """Найти первую свободную позицию в пазле"""
+    """Найти первую свободную позицию в пазлее"""
     for row in range(len(grid)):
         for col in range(len(grid[row])):
             if grid[row][col] == ".":
