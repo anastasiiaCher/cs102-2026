@@ -10,20 +10,19 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    keyword = keyword.upper()
-    key_len = len(keyword)
     key_index = 0
-
-    for ch in plaintext:
-        if "A" <= ch <= "Z":
-            shift = ord(keyword[key_index % key_len]) - ord("A")
-            ciphertext += chr((ord(ch) - ord("A") + shift) % 26 + ord("A"))
-        elif "a" <= ch <= "z":
-            shift = ord(keyword[key_index % key_len].lower()) - ord("a")
-            ciphertext += chr((ord(ch) - ord("a") + shift) % 26 + ord("a"))
+    for char in plaintext:
+        if char.isalpha():
+            if char.isupper():
+                base = ord('A')
+            else:
+                base = ord('a')
+            key_char = keyword[key_index % len(keyword)]
+            shift = ord(key_char.upper()) - ord('A')
+            ciphertext += chr((ord(char) - base + shift) % 26 + base)
+            key_index += 1
         else:
-            ciphertext += ch
-        key_index += 1  # ← ВАЖНО: увеличиваем для ВСЕХ символов
+            ciphertext += char
     return ciphertext
 
 
@@ -39,18 +38,17 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    keyword = keyword.upper()
-    key_len = len(keyword)
     key_index = 0
-
-    for ch in ciphertext:
-        if "A" <= ch <= "Z":
-            shift = ord(keyword[key_index % key_len]) - ord("A")
-            plaintext += chr((ord(ch) - ord("A") - shift) % 26 + ord("A"))
-        elif "a" <= ch <= "z":
-            shift = ord(keyword[key_index % key_len].lower()) - ord("a")
-            plaintext += chr((ord(ch) - ord("a") - shift) % 26 + ord("a"))
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                base = ord('A')
+            else:
+                base = ord('a')
+            key_char = keyword[key_index % len(keyword)]
+            shift = ord(key_char.upper()) - ord('A')
+            plaintext += chr((ord(char) - base - shift) % 26 + base)
+            key_index += 1
         else:
-            plaintext += ch
-        key_index += 1  # ← ВАЖНО: увеличиваем для ВСЕХ символов
+            plaintext += char
     return plaintext
