@@ -119,6 +119,6 @@ if __name__ == "__main__":
     encrypted_msg = encrypt(public, message)
     print("Your encrypted message is: ")
     print("".join(map(lambda x: str(x), encrypted_msg)))
-    print("Decrypting message with private key ", private, " . . .")
+    print("Decrypting message with private key ", public, " . . .")
     print("Your message is:")
     print(decrypt(private, encrypted_msg))
