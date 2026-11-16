@@ -137,7 +137,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         solution = solve(grid)
         if solution is not None:
             return solution
-        # Возвращаем пустую клетку, если выбранная цифра привела в тупик.
         grid[row][col] = "."
     return None
 
@@ -177,7 +176,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    # Сначала создаём полное решение, затем удаляем случайные клетки.
     grid = solve([["."] * 9 for _ in range(9)])
     digits = list("123456789")
     random.shuffle(digits)
