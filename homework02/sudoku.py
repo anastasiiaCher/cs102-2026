@@ -67,8 +67,8 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     col = []
-    for i in range(len(grid)):
-        col.append(grid[i][pos[1]])
+    for _, elem in enumerate(grid):
+        col.append(elem[pos[1]])
     return col
 
 
@@ -112,9 +112,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == ".":
+    for i, row in enumerate(grid):
+        for j, elem in enumerate(row):
+            if elem == ".":
                 return (i, j)
     return None
 
@@ -130,13 +130,11 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     True
     """
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    possible_values = set(
-        [
-            i
-            for i in numbers
-            if (i not in get_row(grid, pos)) and (i not in get_col(grid, pos)) and (i not in get_block(grid, pos))
-        ]
-    )
+    possible_values = {
+        i
+        for i in numbers
+        if (i not in get_row(grid, pos)) and (i not in get_col(grid, pos)) and (i not in get_block(grid, pos))
+    }
     return possible_values
 
 
@@ -170,8 +168,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         solution = solve(grid)
         if solution:
             return solution
-        else:
-            grid[row][col] = "."
+        grid[row][col] = "."
     return None
 
 
@@ -200,8 +197,8 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     False
     """
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    for row in range(len(solution)):
-        for col in range(len(solution[row])):
+    for row, row_elems in enumerate(solution):
+        for col, _ in enumerate(row_elems):
             pos = (row, col)
             if (
                 (sorted(get_row(solution, pos)) != numbers)
