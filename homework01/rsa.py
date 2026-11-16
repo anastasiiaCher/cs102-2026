@@ -117,4 +117,3 @@ if __name__ == "__main__":
     print("Decrypting message with private key ", public, " . . .")
     print("Your message is:")
     print(decrypt(private, encrypted_msg))
-
