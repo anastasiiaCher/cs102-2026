@@ -43,8 +43,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    result = [values[i : i + n] for i in range(0, len(values), n)]
-    return result
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -56,8 +55,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row = pos[0]
-    return grid[row]
+    return grid[pos[0]]
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -69,9 +67,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    c = pos[1]
-    col = [grid[row][c] for row in range(len(grid))]
-    return col
+    return [grid[row][pos[1]] for row in range(len(grid))]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -89,8 +85,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     block_col = col // 3
     row_start = block_row * 3
     col_start = block_col * 3
-    block = [grid[i][j] for i in range(row_start, row_start + 3) for j in range(col_start, col_start + 3)]
-    return block
+    return [grid[i][j] for i in range(row_start, row_start + 3) for j in range(col_start, col_start + 3)]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -102,9 +97,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid)):
-            if grid[i][j] == ".":
+    for i, row in enumerate(grid):
+        for j, value in enumerate(row):
+            if value == ".":
                 return (i, j)
     return None
 
@@ -125,8 +120,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     block_values = set(get_block(grid, pos))
     used = row_values.union(col_values, block_values)
     used.remove(".")
-    values = universum.difference(used)
-    return values
+    return universum.difference(used)
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -246,6 +240,7 @@ def generate_sudoku(n_elem: int) -> tp.List[tp.List[str]]:
     # Собираем полностью решённую доску
     grid = [[mapping[base[r][c]] for c in cols] for r in rows]
 
+    assert check_solution(grid) is True
     # Случайно стираем 81 - N клеток
     cells = [(r, c) for r in range(9) for c in range(9)]
     random.shuffle(cells)
