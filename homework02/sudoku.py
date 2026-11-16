@@ -24,12 +24,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -83,11 +78,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     row, col = pos
     start_row = row // 3 * 3
     start_col = col // 3 * 3
-    return [
-        grid[r][c]
-        for r in range(start_row, start_row + 3)
-        for c in range(start_col, start_col + 3)
-    ]
+    return [grid[r][c] for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)]
 
 
 def find_empty_positions(
@@ -108,9 +99,7 @@ def find_empty_positions(
     return None
 
 
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -120,12 +109,7 @@ def find_possible_values(
     >>> values == {'2', '5', '9'}
     True
     """
-    return (
-        set("123456789")
-        - set(get_row(grid, pos))
-        - set(get_col(grid, pos))
-        - set(get_block(grid, pos))
-    )
+    return set("123456789") - set(get_row(grid, pos)) - set(get_col(grid, pos)) - set(get_block(grid, pos))
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -163,11 +147,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False
         if set(get_col(solution, (0, i))) != digits:
             return False
-    return all(
-        set(get_block(solution, (r, c))) == digits
-        for r in range(0, 9, 3)
-        for c in range(0, 9, 3)
-    )
+    return all(set(get_block(solution, (r, c))) == digits for r in range(0, 9, 3) for c in range(0, 9, 3))
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -192,6 +172,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     grid = solve([["."] * 9 for _ in range(9)])
+    if grid is None:
+        raise RuntimeError("Could not generate a solved Sudoku")
     digits = list("123456789")
     random.shuffle(digits)
     grid = [[digits[int(value) - 1] for value in row] for row in grid]
