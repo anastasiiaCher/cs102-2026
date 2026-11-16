@@ -179,7 +179,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = solve([["." for _ in range(9)] for _ in range(9)])
+    empty_grid = [['.' for _ in range(9)] for _ in range(9)]
+    grid = solve(empty_grid)
+    if grid is None:
+        raise ValueError("Не удалось сгенерировать решение Судоку")
     cells = [(r, c) for r in range(9) for c in range(9)]
     random.shuffle(cells)
     for r, c in cells[N:]:
