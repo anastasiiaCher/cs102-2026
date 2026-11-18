@@ -50,9 +50,7 @@ class GameOfLife:
                 neighbour_row = row + row_change
                 neighbour_col = col + col_change
                 if 0 <= neighbour_row < self.rows and 0 <= neighbour_col < self.cols:
-                    neighbours.append(
-                        self.curr_generation[neighbour_row][neighbour_col]
-                    )
+                    neighbours.append(self.curr_generation[neighbour_row][neighbour_col])
         return neighbours
 
     def get_next_generation(self) -> Grid:
@@ -75,10 +73,7 @@ class GameOfLife:
     @property
     def is_max_generations_exceeded(self) -> bool:
         """Проверить, достигнуто ли максимальное число поколений."""
-        return (
-            self.max_generations is not None
-            and self.generations >= self.max_generations
-        )
+        return self.max_generations is not None and self.generations >= self.max_generations
 
     @property
     def is_changing(self) -> bool:
@@ -89,9 +84,7 @@ class GameOfLife:
     def from_file(filename: pathlib.Path) -> "GameOfLife":
         """Прочитать состояние клеток из указанного файла."""
         filename = pathlib.Path(filename)
-        lines = [
-            line.strip() for line in filename.read_text().splitlines() if line.strip()
-        ]
+        lines = [line.strip() for line in filename.read_text().splitlines() if line.strip()]
         if not lines or any(set(line) - {"0", "1"} for line in lines):
             raise ValueError("Файл должен содержать только 0 и 1")
         if any(len(line) != len(lines[0]) for line in lines):

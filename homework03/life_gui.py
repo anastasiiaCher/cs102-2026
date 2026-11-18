@@ -16,13 +16,9 @@ class GUI(UI):
 
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (x, 0), (x, self.height)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (0, y), (self.width, y)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
 
     def draw_grid(self) -> None:
         for row in range(self.life.rows):
@@ -54,19 +50,13 @@ class GUI(UI):
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.paused:
                     col = event.pos[0] // self.cell_size
                     row = event.pos[1] // self.cell_size
-                    self.life.curr_generation[row][col] = (
-                        1 - self.life.curr_generation[row][col]
-                    )
+                    self.life.curr_generation[row][col] = 1 - self.life.curr_generation[row][col]
 
             self.screen.fill(pygame.Color("white"))
             self.draw_grid()
             self.draw_lines()
             pygame.display.flip()
-            if (
-                not self.paused
-                and not self.life.is_max_generations_exceeded
-                and self.life.is_changing
-            ):
+            if not self.paused and not self.life.is_max_generations_exceeded and self.life.is_changing:
                 self.life.step()
             clock.tick(self.speed)
         pygame.quit()
