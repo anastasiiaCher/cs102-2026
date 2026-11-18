@@ -126,7 +126,16 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    numbers = set("123456789")
+
+    row = set(get_row(grid, pos))
+    col = set(get_col(grid, pos))
+    block = set(get_block(grid, pos))
+
+    possible = numbers - row - col - block
+
+    return possible
+
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
