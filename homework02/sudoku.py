@@ -60,7 +60,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row, col = pos # передаем в pos номер строки и столбца
+    row, col = pos # передаем в pos номер строки
     return grid[row] # возвращаем все значения из строки
 
 
@@ -114,7 +114,12 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
+    for r in range(len(grid)): # проходимся по нашему судоку по строкам
+        for c in range(len(grid[r])): # рассматриваем столбцы
+            if grid[r][c] == '.': 
+                # если элемент на позиции r и c равен точке
+                return (r, c) #то мы возвращаем его индексы
+    return None # если позиция не пустая
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -127,7 +132,14 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    pass
+    used = get_row(grid, pos) + get_col(grid, pos) + get_block(grid, pos) 
+    # запоминаем все использованные символы
+    values = [] # создаем пустой список, куда сложим неиспользованные цифры
+    for digit in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        # какие символы вообще могут быть использованы
+        if digit not in used: # если цифра не занята
+            values.append(digit) # то добавляем ее в список доступных значений
+    return set(values) # возвращаем множество
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -142,7 +154,17 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    pos = find_empty_positions(grid) # на доступные позиции мы передаем индексы точек
+    if pos is None: # если пустых клеток нет, то значит пазл решён
+        return grid # просто возвращаем пазл
+    row, col = pos # если нет, то передаем позиции
+    for value in find_possible_values(grid, pos): # перебираем доступные значения 
+        grid[row][col] = value # поставили цифру
+        solution = solve(grid) # решаем дальше рекурсией
+        if solution is not None: # если решение есть
+            return solution # успех, отдаём наверх
+        grid[row][col] = '.' # откат, если не подошло, стираем
+    return None # тупик
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
