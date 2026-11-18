@@ -177,31 +177,25 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     import random
-    
- 
+
     base = 3
     side = base * base
     pattern = lambda r, c: (base * (r % base) + r // base + c) % side
-    
 
     rBase = range(base)
     rows = [g * base + r for g in random.sample(rBase, base) for r in random.sample(rBase, base)]
     cols = [g * base + c for g in random.sample(rBase, base) for c in random.sample(rBase, base)]
     nums = random.sample(range(1, base * base + 1), base * base)
-    
+
     # Собираем решение
     solution = [[str(nums[pattern(r, c)]) for c in cols] for r in rows]
-    
 
     N = min(N, 81)
     cells = [(r, c) for r in range(9) for c in range(9)]
     random.shuffle(cells)
     keep = set(cells[:N])
-    
-    result = [
-        [solution[r][c] if (r, c) in keep else "." for c in range(9)]
-        for r in range(9)
-    ]
+
+    result = [[solution[r][c] if (r, c) in keep else "." for c in range(9)] for r in range(9)]
     return result
 
 
