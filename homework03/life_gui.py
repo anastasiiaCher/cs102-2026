@@ -15,12 +15,18 @@ class GUI(UI):
         self.paused = False
 
     def draw_lines(self) -> None:
+        screen = self.screen
+        if screen is None:
+            return
         for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
+            pygame.draw.line(screen, pygame.Color("black"), (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
+            pygame.draw.line(screen, pygame.Color("black"), (0, y), (self.width, y))
 
     def draw_grid(self) -> None:
+        screen = self.screen
+        if screen is None:
+            return
         for row in range(self.life.rows):
             for col in range(self.life.cols):
                 if self.life.curr_generation[row][col]:
@@ -33,7 +39,7 @@ class GUI(UI):
                     self.cell_size,
                     self.cell_size,
                 )
-                pygame.draw.rect(self.screen, color, rect)
+                pygame.draw.rect(screen, color, rect)
 
     def run(self) -> None:
         pygame.init()
