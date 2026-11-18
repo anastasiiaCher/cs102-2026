@@ -152,15 +152,19 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     if len(solution) != 9 or any(len(row) != 9 for row in solution):
         return False
     expected = set("123456789")
-    for row in solution:
-        if set(row) != expected:
+    for values in solution:
+        if set(values) != expected:
             return False
     for col in range(9):
-        if {solution[row][col] for row in range(9)} != expected:
+        if {solution[row_index][col] for row_index in range(9)} != expected:
             return False
-    for row in range(0, 9, 3):
-        for col in range(0, 9, 3):
-            block = {solution[r][c] for r in range(row, row + 3) for c in range(col, col + 3)}
+    for block_row in range(0, 9, 3):
+        for block_col in range(0, 9, 3):
+            block = {
+                solution[row_index][col_index]
+                for row_index in range(block_row, block_row + 3)
+                for col_index in range(block_col, block_col + 3)
+            }
             if block != expected:
                 return False
     return True
