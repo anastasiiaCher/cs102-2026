@@ -15,12 +15,11 @@ def is_prime(n: int) -> bool:
     if n < 2:
         return False
 
-    for divisor in range(2, int(n ** 0.5) + 1):
+    for divisor in range(2, int(n**0.5) + 1):
         if n % divisor == 0:
             return False
 
     return True
-    
 
 
 def gcd(a: int, b: int) -> int:
@@ -35,7 +34,6 @@ def gcd(a: int, b: int) -> int:
         a, b = b, a % b
 
     return a
-    
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -55,7 +53,6 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         old_t, t = t, old_t - quotient * t
 
     return old_t % phi
-    
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -101,7 +98,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
