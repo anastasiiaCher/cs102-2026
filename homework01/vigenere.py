@@ -9,7 +9,24 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    # PUT OUR CODE HERE
+    ciphertext = ""
+    key_index = 0
+    
+    for char in plaintext:
+        if char.isalpha():
+            shift = ord(keyword[key_index % len(keyword)].upper()) - 65
+            is_upper = char.isupper()
+            char_code = ord(char.upper()) - 65
+            new_code = (char_code + shift) % 26
+            new_char = chr(new_code + 65)
+            if not is_upper:
+                new_char = new_char.lower()
+            ciphertext += new_char
+            key_index += 1
+        else:
+            ciphertext += char
+    
     return ciphertext
 
 
@@ -25,4 +42,19 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
     # PUT YOUR CODE HERE
+    plaintext = ""
+    key_index = 0
+    for char in ciphertext:
+        if char.isalpha():
+            shift = ord(keyword[key_index % len(keyword)].upper()) - 65
+            is_upper = char.isupper()
+            char_code = ord(char.upper()) - 65
+            new_code = (char_code - shift) % 26
+            new_char = chr(new_code + 65)
+            if not is_upper:
+                new_char = new_char.lower()
+            plaintext += new_char
+            key_index += 1
+        else:
+            plaintext += char
     return plaintext
