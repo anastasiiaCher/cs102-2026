@@ -60,7 +60,8 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    pass
+    row, col = pos # передаем в pos номер строки и столбца
+    return grid[row] # возвращаем все значения из строки
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -72,7 +73,13 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    pass
+    row, col = pos # передаем в pos номер столбца
+    result = [] # создаем пустой список для собирания ответа
+    for r in grid: # r - очередная строка
+        result.append(r[col]) 
+        # добавляем элементы в результат,
+        # проходимся по строкам, забирая нужного столбца
+    return result # возвращаем результат
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -85,7 +92,17 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    pass
+    row, col = pos # узнаем позиции
+    # находим самый верхний и левый угол нашего квадрата
+    top = row // 3 * 3 # находим верхнюю границу
+    left = col // 3 * 3 # находим самую левую границу
+    result = [] # создаем пустой список для результата
+    for r in range(top, top + 3): 
+        # рассматриваем самую верхнюю строку и идем до конца нащего квадрата
+        for c in range(left, left + 3): 
+            # проходимся по каждому номеру элемента строки слева направо до конца квадрата
+            result.append(grid[r][c]) #добавляем элементы в результат
+    return result # возвращаем результат
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
