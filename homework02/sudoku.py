@@ -5,7 +5,7 @@ T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -19,15 +19,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -41,7 +37,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [values[i:i + n] for i in range(0, len(values), n)]
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -83,11 +79,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     row, col = pos
     block_row = row // 3 * 3
     block_col = col // 3 * 3
-    return [
-        grid[r][c]
-        for r in range(block_row, block_row + 3)
-        for c in range(block_col, block_col + 3)
-    ]
+    return [grid[r][c] for r in range(block_row, block_row + 3) for c in range(block_col, block_col + 3)]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -121,7 +113,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -134,12 +126,12 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """
     pos = find_empty_positions(grid)
     if pos is None:
-        return grid 
+        return grid
 
     row, col = pos
     for value in find_possible_values(grid, pos):
-        grid[row][col] = value 
-        result = solve(grid)            
+        grid[row][col] = value
+        result = solve(grid)
         if result is not None:
             return result
         grid[row][col] = "."
@@ -148,7 +140,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
     target = set("123456789")
     for i in range(len(solution)):
@@ -156,7 +148,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False
         if set(get_col(solution, (0, i))) != target:
             return False
-        
+
         block_pos = (3 * (i // 3), 3 * (i % 3))
         if set(get_block(solution, block_pos)) != target:
             return False
@@ -185,7 +177,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     import random
-   
+
     grid = [["." for _ in range(9)] for _ in range(9)]
     solution = solve(grid)
 
@@ -194,10 +186,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     random.shuffle(cells)
 
     keep = set(cells[:N])
-    result = [
-        [solution[r][c] if (r, c) in keep else "." for c in range(9)]
-        for r in range(9)
-    ]
+    result = [[solution[r][c] if (r, c) in keep else "." for c in range(9)] for r in range(9)]
     return result
 
 
