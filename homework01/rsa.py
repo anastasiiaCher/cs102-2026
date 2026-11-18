@@ -13,7 +13,12 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    pass
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
 
 
 def gcd(a: int, b: int) -> int:
@@ -25,7 +30,9 @@ def gcd(a: int, b: int) -> int:
     1
     """
     # PUT YOUR CODE HERE
-    pass
+    while b != 0:
+        a, b = b, a % b
+    return a
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -36,7 +43,17 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
-    pass
+    phi_orig = phi
+    x0, x1 = 0, 1
+    if phi == 1:
+        return 0
+    while e > 1:
+        q = e // phi
+        e, phi = phi, e % phi
+        x0, x1 = x1 - q * x0, x0
+    if x1 < 0:
+        x1 += phi_orig
+    return x1
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -47,9 +64,11 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # n = pq
     # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +101,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
@@ -94,10 +113,10 @@ if __name__ == "__main__":
     print("Generating your public/private keypairs now . . .")
     public, private = generate_keypair(p, q)
     print("Your public key is ", public, " and your private key is ", private)
-    message = input("Enter a message to encrypt with your public key: ")
-    encrypted_msg = encrypt(public, message)
+    message = input("Enter a message to encrypt with your private key: ")
+    encrypted_msg = encrypt(private, message)
     print("Your encrypted message is: ")
     print("".join(map(lambda x: str(x), encrypted_msg)))
-    print("Decrypting message with private key ", public, " . . .")
+    print("Decrypting message with public key ", public, " . . .")
     print("Your message is:")
-    print(decrypt(private, encrypted_msg))
+    print(decrypt(public, encrypted_msg))
