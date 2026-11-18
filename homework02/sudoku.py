@@ -230,7 +230,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     # cоздаём полностью решённое Судоку
     grid = solve([["."] * 9 for _ in range(9)])
-
+    # Добавлен assert для myp !!!
+    assert grid is not None
     # вычисляем, сколько клеток нужно очистить
     cells_to_remove = max(0, 81 - N)
 
