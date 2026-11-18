@@ -40,7 +40,7 @@ class GameOfLife:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
             self.screen.fill(pygame.Color("white"))
             self.draw_grid()

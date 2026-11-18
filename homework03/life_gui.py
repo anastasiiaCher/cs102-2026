@@ -11,7 +11,7 @@ class GUI(UI):
         self.speed = speed
         self.width = life.cols * cell_size
         self.height = life.rows * cell_size
-        self.screen = None
+        self.screen: pygame.Surface | None = None
         self.paused = False
 
     def draw_lines(self) -> None:
@@ -37,7 +37,8 @@ class GUI(UI):
 
     def run(self) -> None:
         pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = screen
         pygame.display.set_caption("Game of Life")
         clock = pygame.time.Clock()
         running = True
@@ -52,7 +53,7 @@ class GUI(UI):
                     row = event.pos[1] // self.cell_size
                     self.life.curr_generation[row][col] = 1 - self.life.curr_generation[row][col]
 
-            self.screen.fill(pygame.Color("white"))
+            screen.fill(pygame.Color("white"))
             self.draw_grid()
             self.draw_lines()
             pygame.display.flip()
