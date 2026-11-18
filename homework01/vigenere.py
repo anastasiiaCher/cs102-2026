@@ -1,7 +1,6 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
-    """
+    if not keyword:
+        return plaintext
     ciphertext = ""
     key_index = 0
     for ch in plaintext:
@@ -18,9 +17,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     return ciphertext
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
-    """
+    if not keyword:
+        return ciphertext
     plaintext = ""
     key_index = 0
     for ch in ciphertext:
