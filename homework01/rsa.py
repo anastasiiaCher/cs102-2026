@@ -1,3 +1,27 @@
+"""
+1. Пользователь вводит два простых числа p и q
+        │   (проверка: is_prime ✓)
+        ▼
+2. n = p · q                          ← войдёт в оба ключа
+3. phi = (p − 1) · (q − 1)            ← секретное вспомогательное число
+        │
+        ▼
+4. Выбираем случайное e: gcd(e, phi) = 1     (проверка: gcd ✓)
+        │
+        ▼
+5. Находим d: (d · e) % phi == 1     (multiplicative_inverse ← сейчас)
+        │
+        ▼
+открытый ключ (e, n)          закрытый ключ (d, n)
+
+
+Шаг	Что делаем	Пример
+1	берём два простых числа p и q	p = 3, q = 11
+2	n = p · q	n = 33
+3	phi = (p − 1) · (q − 1)	phi = 2 · 10 = 20
+4	выбираем e, у которого с phi нет общих делителей	e = 7
+5	находим d, такое что (d · e) % phi == 1	d = 3, ведь 21 % 20 = 1
+"""
 import random
 import typing as tp
 
@@ -34,7 +58,8 @@ def gcd(a: int, b: int) -> int:
     return a
     pass
 
-
+# открытый (e, n)
+# закрытый (d, n)
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -42,8 +67,20 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
+    # multiplicative_inverse:
+    a, b = phi, e  # цепочка Евклида начинается с phi и e
+    x, y = 0, 1  # их счётчики: в phi 0 штук e, в e 1 штука e
+    while b != 0:
+        q = a // b  # сколько раз b помещается в a
+        a, b = b, a % b  # (= a - q * b) шаг Евклида
+        x, y = y, x - q * y  # тот же шаг со счётчиками
+    return x % phi  # счётчик единицы, приведённый к нормальному виду
     pass
+
+# d = 1
+# while (d * e) % phi != 1:
+#     d += 1
+# return d
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -53,10 +90,10 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1)*(q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
