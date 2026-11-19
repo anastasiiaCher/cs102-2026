@@ -1,6 +1,6 @@
 """Модуль с приветственной функцией."""
 
 
-def text(hello_world):
+def text():
     """Возвращает переданное значение."""
-    return hello_world
+    return "hello_world"
