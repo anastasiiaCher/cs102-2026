@@ -169,17 +169,15 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False
-
     Плохой пазл: поле ещё не решено
     >>> check_solution(read_sudoku('puzzle1.txt'))
     False
-
+    
     Плохой пазл: девять одинаковых строк - в столбцах повторы
     >>> row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     >>> check_solution([row] * 9)
     False
     """
-
     digits = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
     # проверка всех 9 строк
     for r in range(9): # проходимся по строкам
@@ -225,7 +223,16 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    empty = [['.'] * 9 for _ in range(9)] # создаем пустую доску
+    grid = solve(empty)
+    # решаем её и получаем полностью заполненное верное поле
+    N = min(max(N, 0), 81) # N - кол-во незаполненных клеток, 
+    # оно не может быть отрицательным или больше 81
+    for i in range(81 - N): # стираем 81 - N клеток
+        row, col = i // 9, i % 9 # превращаем нашу i в координаты точек, 
+        # которые надо заменить на пустые
+        grid[row][col] = '.' # заменяем символы на точки
+    return grid # возвращаем новый нерешененный пазл
 
 
 if __name__ == "__main__":
