@@ -22,6 +22,7 @@
 4	выбираем e, у которого с phi нет общих делителей	e = 7
 5	находим d, такое что (d · e) % phi == 1	d = 3, ведь 21 % 20 = 1
 """
+
 import random
 import typing as tp
 
@@ -38,7 +39,7 @@ def is_prime(n: int) -> bool:
     """
     if n < 2:  # маленькие числа
         return False
-    for i in range(2, int(n ** 0.5) + 1):
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:  # нашли делитель
             return False
     return True  # цикл закончился — делителей нет
@@ -57,6 +58,7 @@ def gcd(a: int, b: int) -> int:
         a, b = b, a % b
     return a
     pass
+
 
 # открытый (e, n)
 # закрытый (d, n)
@@ -77,13 +79,16 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return x % phi  # счётчик единицы, приведённый к нормальному виду
     pass
 
+
 # d = 1
 # while (d * e) % phi != 1:
 #     d += 1
 # return d
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(
+    p: int, q: int
+) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
@@ -93,7 +98,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     n = p * q
 
     # phi = (p-1)(q-1)
-    phi = (p - 1)*(q - 1)
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -126,7 +131,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 

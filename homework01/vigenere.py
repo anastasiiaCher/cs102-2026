@@ -1,4 +1,3 @@
-
 # ord("A") → 65: «какой номер у этого символа?»
 # chr(65) → "A": «какой символ стоит под этим номером?»
 
@@ -15,8 +14,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
     for i, char in enumerate(plaintext):
-        keychar = keyword[i % len(keyword)] # закольцевали - выдает букву ключ-сл
-        shift = ord(keychar.upper()) - 65 # вычисляем сдвиг
+        keychar = keyword[i % len(keyword)]  # закольцевали - выдает букву ключ-сл
+        shift = ord(keychar.upper()) - 65  # вычисляем сдвиг
         if "A" <= char <= "Z":
             ciphertext += chr((ord(char) - 65 + shift) % 26 + 65)
         elif "a" <= char <= "z":
@@ -39,8 +38,8 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
     for i, char in enumerate(ciphertext):
-        keychar = keyword[i % len(keyword)] # закольцевали - выдает букву ключ-сл
-        shift = ord(keychar.upper()) - 65 # вычисляем сдвиг
+        keychar = keyword[i % len(keyword)]  # закольцевали - выдает букву ключ-сл
+        shift = ord(keychar.upper()) - 65  # вычисляем сдвиг
         if "A" <= char <= "Z":
             plaintext += chr((ord(char) - 65 - shift) % 26 + 65)
         elif "a" <= char <= "z":
