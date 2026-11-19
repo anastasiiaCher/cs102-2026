@@ -1,4 +1,5 @@
 """Модуль для решения судоку"""
+
 import pathlib
 import typing as tp
 
@@ -12,6 +13,7 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
         puzzle = f.read()
     return create_grid(puzzle)
 
+
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
     """Преобразовать строку в матрицу 9 на 9"""
     digits = [c for c in puzzle if c in "123456789."]
@@ -24,8 +26,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                      for col in range(9)))
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -233,9 +234,9 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     True
     """
     empty = [["."] * 9 for _ in range(9)]  # создаем пустую доску
-    grid = solve(empty) # решаем её и получаем полностью заполненное верное поле
-    if grid is None: # добавляем проверку, что если не смогли решить пазл
-        return [['.'] * 9 for _ in range(9)] # то возвращаем пустую доску
+    grid = solve(empty)  # решаем её и получаем полностью заполненное верное поле
+    if grid is None:  # добавляем проверку, что если не смогли решить пазл
+        return [["."] * 9 for _ in range(9)]  # то возвращаем пустую доску
     N = min(max(N, 0), 81)  # N - кол-во незаполненных клеток,
     # оно не может быть отрицательным или больше 81
 
