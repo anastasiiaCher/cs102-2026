@@ -3,4 +3,4 @@
 
 def text():
     """Возвращает переданное значение."""
-    return "hello_world"
+    return "message"
