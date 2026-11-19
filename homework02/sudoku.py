@@ -1,4 +1,5 @@
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
@@ -148,7 +149,22 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    valid_set = set("123456789")
+    for row in range(len(solution)):
+        if set(get_row(solution, (row, 0))) != valid_set:
+            return False
+
+    for col in range(len(solution)):
+        if set(get_col(solution, (0, col))) != valid_set:
+            return False
+
+    for row in (0, 3, 6):
+        for col in (0, 3, 6):
+            if set(get_block(solution, (row, col))) != valid_set:
+                return False
+
+    return True
+
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -172,7 +188,17 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    grid = solve([["."] * 9 for _ in range(9)])
+    if grid is None:
+        return [["."] * 9 for _ in range(9)]
+
+    N = max(0, min(81, N))
+    empty_count = 81 - N
+    positions = [(r, c) for r in range(9) for c in range(9)]
+    for row, col in random.sample(positions, empty_count):
+        grid[row][col] = "."
+
+    return grid
 
 
 if __name__ == "__main__":
