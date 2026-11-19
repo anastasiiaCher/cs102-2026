@@ -28,7 +28,6 @@ def is_prime(n: int) -> bool:
     return True
 
 
-
 def gcd(a: int, b: int) -> int:
     """
     Euclid's algorithm for determining the greatest common divisor.
@@ -45,7 +44,6 @@ def gcd(a: int, b: int) -> int:
     return a
 
 
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -59,25 +57,25 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     s = 0
     old_t = 0
     t = 1
-    
+
     while r != 0:
         quotient = old_r // r
-        
+
         temp_r = r
         r = old_r - quotient * r
         old_r = temp_r
-        
+
         temp_s = s
         s = old_s - quotient * s
         old_s = temp_s
-        
+
         temp_t = t
         t = old_t - quotient * t
         old_t = temp_t
-        
+
     if old_s < 0:
         old_s = old_s + phi
-        
+
     return old_s
 
 
