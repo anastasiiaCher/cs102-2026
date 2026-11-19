@@ -170,7 +170,28 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    digits = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
+    # проверка всех 9 строк
+    for r in range(9): # проходимся по строкам
+        if set(get_row(solution, (r, 0))) != digits: # если при взятии строки из решения
+            # множество чисел не совпадает, то значит решение  неверно
+            return False # возвращает false
+
+    # проверка всех 9 столбцов
+    for c in range(9): # проходимся по столбцам 
+        if set(get_col(solution, (0, c))) != digits: # если при взятии столбца из решения
+             # множество чисел не совпадает, то значит решение  неверно
+            return False # возвращает false
+
+    # проверяем все 9 квадратов
+    for r in (0, 3, 6): # начинаем с самого левого элемента
+        for c in (0, 3, 6): # и самого верхнего, 
+            # то есть с левого верхнего уголка квадрата
+            if set(get_block(solution, (r, c))) != digits: # смотрим если символы квадрата 
+            # не совпадают с символами из множества  
+                return False # возвращает false
+
+    return True # в иных случаях все верно и возвращаем true
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
