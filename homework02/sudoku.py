@@ -135,7 +135,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     """
     pos = find_empty_positions(grid)
     if pos is None:
-        return grid if check_solution(grid) else None
+        return grid
 
     row, col = pos
     for value in sorted(find_possible_values(grid, pos)):
@@ -143,6 +143,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         result = solve(grid)
         if result is not None:
             return result
+
         grid[row][col] = '.'
     return None
 
