@@ -168,8 +168,18 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
+    """ Если решение solution верно, то вернуть True, в противном случае False
+
+    Плохой пазл: поле ещё не решено
+    >>> check_solution(read_sudoku('puzzle1.txt'))
+    False
+
+    Плохой пазл: девять одинаковых строк - в столбцах повторы
+    >>> row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    >>> check_solution([row] * 9)
+    False
+    """
+
     digits = {'1', '2', '3', '4', '5', '6', '7', '8', '9'}
     # проверка всех 9 строк
     for r in range(9): # проходимся по строкам
