@@ -147,10 +147,49 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     return None
 
 
+
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """ Если решение solution верно, то вернуть True, в противном случае False
     # TODO: Add doctests with bad puzzles
-    pass
+    
+    >>> correct = [[str((r * 3 + r // 3 + c) % 9 + 1) for c in range(9)] for r in range(9)]
+    >>> check_solution(correct)
+    True
+
+    Проверка повторяющихся чисел в строке:
+    >>> wrong = [row[:] for row in correct]
+    >>> wrong[0][0] = wrong[0][1]
+    >>> check_solution(wrong)
+    False
+
+    Проверка повторяющихся чисел в столбце:
+    >>> wrong = [row[:] for row in correct]
+    >>> wrong[0][0] = wrong[1][0]
+    >>> check_solution(wrong)
+    False
+
+    Проверка незаполненного Судоку:
+    >>> wrong = [row[:] for row in correct]
+    >>> wrong[0][0] = '.'
+    >>> check_solution(wrong)
+    False
+    """
+    digits = set('123456789')
+    if solution is None or len(solution) != 9 or any(len(row) != 9 for row in solution):
+        return False
+
+    for i in range(9):
+        if set(get_row(solution, (i, 0))) != digits:
+            return False
+        if set(get_col(solution, (0, i))) != digits:
+            return False
+
+    for row in (0, 3, 6):
+        for col in (0, 3, 6):
+            if set(get_block(solution, (row, col))) != digits:
+                return False
+    return True
+
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -174,7 +213,22 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    import random
+
+    N = max(0, min(81, N))
+    digits = list('123456789')
+    random.shuffle(digits)
+
+    # Сначала создаём правильное полностью заполненное судоку.
+    grid = [
+        [digits[(row * 3 + row // 3 + col) % 9] for col in range(9)]
+        for row in range(9)
+    ]
+
+    # Затем удаляем значения из 81 - N случайных клеток.
+    for index in random.sample(range(81), 81 - N):
+        grid[index // 9][index % 9] = '.'
+    return grid
 
 
 if __name__ == "__main__":
