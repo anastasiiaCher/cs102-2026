@@ -1,28 +1,3 @@
-"""
-1. Пользователь вводит два простых числа p и q
-        │   (проверка: is_prime ✓)
-        ▼
-2. n = p · q                          ← войдёт в оба ключа
-3. phi = (p − 1) · (q − 1)            ← секретное вспомогательное число
-        │
-        ▼
-4. Выбираем случайное e: gcd(e, phi) = 1     (проверка: gcd ✓)
-        │
-        ▼
-5. Находим d: (d · e) % phi == 1     (multiplicative_inverse ← сейчас)
-        │
-        ▼
-открытый ключ (e, n)          закрытый ключ (d, n)
-
-
-Шаг	Что делаем	Пример
-1	берём два простых числа p и q	p = 3, q = 11
-2	n = p · q	n = 33
-3	phi = (p − 1) · (q − 1)	phi = 2 · 10 = 20
-4	выбираем e, у которого с phi нет общих делителей	e = 7
-5	находим d, такое что (d · e) % phi == 1	d = 3, ведь 21 % 20 = 1
-"""
-
 import random
 import typing as tp
 
@@ -58,10 +33,6 @@ def gcd(a: int, b: int) -> int:
     return a
 
 
-# открытый (e, n)
-# закрытый (d, n)
-
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -79,13 +50,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return x % phi  # счётчик единицы, приведённый к нормальному виду
 
 
-# на выходе d
-# d подбирается так, чтобы (d · e) % phi == 1. Тогда расшифровка закрытым ключом возвращает исходное сообщение, зашифрованное открытым».
-
-
-def generate_keypair(
-    p: int, q: int
-) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
