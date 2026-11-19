@@ -172,7 +172,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     Плохой пазл: поле ещё не решено
     >>> check_solution(read_sudoku('puzzle1.txt'))
     False
-    
+
     Плохой пазл: девять одинаковых строк - в столбцах повторы
     >>> row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     >>> check_solution([row] * 9)
@@ -202,6 +202,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     return True # в иных случаях все верно и возвращаем true
 
 
+import random
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
@@ -228,11 +229,14 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     # решаем её и получаем полностью заполненное верное поле
     N = min(max(N, 0), 81) # N - кол-во незаполненных клеток, 
     # оно не может быть отрицательным или больше 81
-    for i in range(81 - N): # стираем 81 - N клеток
-        row, col = i // 9, i % 9 # превращаем нашу i в координаты точек, 
-        # которые надо заменить на пустые
-        grid[row][col] = '.' # заменяем символы на точки
-    return grid # возвращаем новый нерешененный пазл
+    
+    positions = [(r, c) for r in range(9) for c in range(9)] 
+    # собираем список из всех координат нашего судоку
+    random.shuffle(positions) # перемешиваем в случайном порядке
+    
+    for row, col in positions[:81 - N]: # берем первые 81 - N кортежей из перемешанного списка
+        grid[row][col] = '.' # заменяем цифру под координатами на точку
+    return grid # возвращаем новый судоку
 
 
 if __name__ == "__main__":
