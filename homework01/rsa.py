@@ -43,7 +43,6 @@ def is_prime(n: int) -> bool:
         if n % i == 0:  # нашли делитель
             return False
     return True  # цикл закончился — делителей нет
-    pass
 
 
 def gcd(a: int, b: int) -> int:
@@ -57,11 +56,12 @@ def gcd(a: int, b: int) -> int:
     while b > 0:
         a, b = b, a % b
     return a
-    pass
 
 
 # открытый (e, n)
 # закрытый (d, n)
+
+
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -77,13 +77,10 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         a, b = b, a % b  # (= a - q * b) шаг Евклида
         x, y = y, x - q * y  # тот же шаг со счётчиками
     return x % phi  # счётчик единицы, приведённый к нормальному виду
-    pass
 
 
-# d = 1
-# while (d * e) % phi != 1:
-#     d += 1
-# return d
+# на выходе d
+# d подбирается так, чтобы (d · e) % phi == 1. Тогда расшифровка закрытым ключом возвращает исходное сообщение, зашифрованное открытым».
 
 
 def generate_keypair(

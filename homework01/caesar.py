@@ -1,3 +1,7 @@
+# ord("A") → 65: «какой номер у этого символа?»
+# chr(65) → "A": «какой символ стоит под этим номером?»
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
