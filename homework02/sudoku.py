@@ -202,6 +202,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     empty_grid = [["." for _ in range(9)] for _ in range(9)]
     solved = solve(empty_grid)
+    assert solved is not None
 
     if N >= 81:
         return solved
