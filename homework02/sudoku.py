@@ -122,11 +122,12 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     """
     possible_values = set("123456789")
     row_values = set(get_row(grid, pos))
-    values = possible_values - row_values
+    #values = possible_values - row_values
     col_values = set(get_col(grid, pos))
-    values_new = values - col_values
+    #values_new = values - col_values
     block_values = set(get_block(grid, pos))
-    values_new = values_new - block_values
+    #values_new = values_new - block_values
+    values_new = possible_values - row_values - col_values - block_values
     return values_new
 
 
