@@ -45,7 +45,6 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     return ll
 
 
-
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
     >>> get_row([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
@@ -70,11 +69,12 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     """
     result = []
     col = pos[1]
-    #for row in range(len(grid)):
-     #   list = grid[row][col]
-      #  result.append(list)
+    # for row in range(len(grid)):
+    #   list = grid[row][col]
+    #  result.append(list)
     kk = [grid[row][col] for row in range(len(grid))]
     return kk
+
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения из квадрата, в который попадает позиция pos
@@ -129,7 +129,6 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     values_new = values - col_values
     block_values = set(get_block(grid, pos))
     values_new = values_new - block_values
-    values_new = block_values - block_values - col_values - row_values
     return values_new
 
 
@@ -202,13 +201,15 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     grid = create_grid("." * 81)
     solve(grid)
+    count = 81 - N
+    import random
 
-    for row in range(9):
-        for col in range(9):
-            if N > 0:
-                N -= 1
-            else:
-                grid[row][col] = "."
+    while count > 0:
+        row = random.randrange(9)
+        col = random.randrange(9)
+        if grid[row][col] != ".":
+            grid[row][col] = "."
+            count -= 1
 
     return grid
 
