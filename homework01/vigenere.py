@@ -42,5 +42,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    if not keyword.isascii() or not keyword.isalpha():
+        raise ValueError("keyword must contain only English letters")
+
+    inverse_keyword = ""
+    for letter in keyword.upper():
+        shift = ord(letter) - ord("A")
+        inverse_keyword += chr(ord("A") + (-shift) % 26)
+
+    plaintext = encrypt_vigenere(ciphertext, inverse_keyword)
     return plaintext
