@@ -197,7 +197,21 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    import random
+
+    grid = [['.' for _ in range(9)] for _ in range(9)]
+    solve(grid)
+
+    N = max(0, min(81, N))
+    to_remove = 81 - N
+
+    cells = [(r, c) for r in range(9) for c in range(9)]
+    random.shuffle(cells)
+
+    for r, c in cells[:to_remove]:
+        grid[r][c] = '.'
+
+    return grid
 
 
 if __name__ == "__main__":
