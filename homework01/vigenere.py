@@ -9,7 +9,25 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    if not keyword.isascii() or not keyword.isalpha():
+        raise ValueError("keyword must contain only English letters")
+
+    keyword = keyword.upper()
+    key_index = 0
+
+    for char in plaintext:
+        if "A" <= char <= "Z":
+            base = ord("A")
+        elif "a" <= char <= "z":
+            base = ord("a")
+        else:
+            ciphertext += char
+            continue
+
+        key_letter = keyword[key_index % len(keyword)]
+        shift = ord(key_letter) - ord("A")
+        ciphertext += chr(base + (ord(char) - base + shift) % 26)
+        key_index += 1
     return ciphertext
 
 
