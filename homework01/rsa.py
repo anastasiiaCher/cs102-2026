@@ -1,9 +1,11 @@
 import random
+import typing as tp
 from typing import Tuple
 
 
 def is_prime(n: int) -> bool:
     """
+    Tests to see if a number is prime.
     >>> is_prime(2)
     True
     >>> is_prime(11)
@@ -21,6 +23,7 @@ def is_prime(n: int) -> bool:
 
 def gcd(a: int, b: int) -> int:
     """
+    Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
     3
     >>> gcd(3, 7)
@@ -33,6 +36,8 @@ def gcd(a: int, b: int) -> int:
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
+    Euclid's extended algorithm for finding the multiplicative
+    inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
@@ -45,11 +50,11 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return old_s % phi
 
 
-def generate_keypair(p: int, q: int) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
-        raise ValueError('Both numbers must be prime.')
+        raise ValueError("Both numbers must be prime.")
     elif p == q:
-        raise ValueError('p and q cannot be equal')
+        raise ValueError("p and q cannot be equal")
 
     # n = pq
     n = p * q
@@ -57,7 +62,7 @@ def generate_keypair(p: int, q: int) -> Tuple[Tuple[int, int], Tuple[int, int]]:
     # phi = (p-1)(q-1)
     phi = (p - 1) * (q - 1)
 
-    # Choose an integer e such that e and phi(n) are coprime
+    # Choose an integer e such that e and phi(n) are comprime
     e = random.randrange(1, phi)
 
     # Use Euclid's Algorithm to verify that e and phi(n) are comprime
@@ -68,6 +73,7 @@ def generate_keypair(p: int, q: int) -> Tuple[Tuple[int, int], Tuple[int, int]]:
 
     # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
+    
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
