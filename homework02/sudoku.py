@@ -1,4 +1,5 @@
 import pathlib
+import random
 import typing as tp
 
 T = tp.TypeVar("T")
@@ -182,7 +183,16 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    grid = solve([["."] * 9 for _ in range(9)])
+    if grid is None:
+        return [["."] * 9 for _ in range(9)]
+    N = min(N, 81)
+    positions = [(i, j) for i in range(9) for j in range(9)]
+    random.shuffle(positions)
+    for i in range(81 - N):
+        row, col = positions[i]
+        grid[row][col] = "."
+    return grid
 
 
 if __name__ == "__main__":
