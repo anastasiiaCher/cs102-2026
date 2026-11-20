@@ -79,9 +79,7 @@ def find_empty_positions(
     return None
 
 
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество всех возможных значения для указанной позиции"""
     row_vals = set(get_row(grid, pos))
     col_vals = set(get_col(grid, pos))
