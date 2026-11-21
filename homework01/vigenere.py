@@ -13,9 +13,8 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         raise ValueError("keyword must contain only English letters")
 
     keyword = keyword.upper()
-    key_index = 0
 
-    for char in plaintext:
+    for key_index, char in enumerate(plaintext):
         if "A" <= char <= "Z":
             base = ord("A")
         elif "a" <= char <= "z":
@@ -27,7 +26,6 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         key_letter = keyword[key_index % len(keyword)]
         shift = ord(key_letter) - ord("A")
         ciphertext += chr(base + (ord(char) - base + shift) % 26)
-        key_index += 1
     return ciphertext
 
 
