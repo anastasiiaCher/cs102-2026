@@ -52,7 +52,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         x0, x1 = x1, x0 - q * x1
 
     if e != 1:
-        return None
+        raise ValueError("Multiplicative inverse does not exist")
 
     return x0 % original_phi
 
