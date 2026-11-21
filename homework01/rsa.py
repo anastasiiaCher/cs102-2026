@@ -12,7 +12,16 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
+    if n < 2:
+        return False
+
+    divisor = 2
+    while divisor * divisor <= n:
+        if n % divisor == 0:
+            return False
+        divisor += 1
+
+    return True
     pass
 
 
@@ -24,18 +33,52 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
+    a, b = abs(a), abs(b)
+    while b:
+        a, b = b, a % b
+
+    return a
     pass
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
+    previous_remainder, remainder = phi, e
+    previous_coefficient, coefficient = 0, 1
+
+    while remainder:
+        quotient = previous_remainder // remainder
+        previous_remainder, remainder = remainder, previous_remainder % remainder
+        previous_coefficient, coefficient = (
+            coefficient,
+            previous_coefficient - quotient * coefficient,
+        )
+
+    if previous_remainder != 1:
+        raise ValueError("e and phi must be coprime")
+
+    return previous_coefficient % phi
+
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
+    previous_remainder, remainder = phi, e
+    previous_coefficient, coefficient = 0, 1
+
+    while remainder:
+        quotient = previous_remainder // remainder
+        previous_remainder, remainder = remainder, previous_remainder % remainder
+        previous_coefficient, coefficient = (
+            coefficient,
+            previous_coefficient - quotient * coefficient,
+        )
+
+    if previous_remainder != 1:
+        raise ValueError("e and phi must be coprime")
+
+    return previous_coefficient % phi
     pass
 
 
@@ -44,12 +87,8 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
-
-    # n = pq
-    # PUT YOUR CODE HERE
-
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    n = p * q
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +121,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 

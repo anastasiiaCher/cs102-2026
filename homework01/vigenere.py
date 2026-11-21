@@ -9,7 +9,23 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    if not keyword.isascii() or not keyword.isalpha():
+        raise ValueError("keyword must contain only English letters")
+
+    keyword = keyword.upper()
+
+    for key_index, char in enumerate(plaintext):
+        if "A" <= char <= "Z":
+            base = ord("A")
+        elif "a" <= char <= "z":
+            base = ord("a")
+        else:
+            ciphertext += char
+            continue
+
+        key_letter = keyword[key_index % len(keyword)]
+        shift = ord(key_letter) - ord("A")
+        ciphertext += chr(base + (ord(char) - base + shift) % 26)
     return ciphertext
 
 
@@ -24,5 +40,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    if not keyword.isascii() or not keyword.isalpha():
+        raise ValueError("keyword must contain only English letters")
+
+    inverse_keyword = ""
+    for letter in keyword.upper():
+        shift = ord(letter) - ord("A")
+        inverse_keyword += chr(ord("A") + (-shift) % 26)
+
+    plaintext = encrypt_vigenere(ciphertext, inverse_keyword)
     return plaintext
