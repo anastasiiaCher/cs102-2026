@@ -210,6 +210,9 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     grid = read_sudoku("puzzle1.txt")
     solution = solve(grid)
+    if solution is None:
+        return [["." for col in range(9)] for row in range(9)]
+
 
     if N > 81:
         N = 81
