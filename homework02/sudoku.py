@@ -213,7 +213,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     if solution is None:
         return [["." for col in range(9)] for row in range(9)]
 
-
     if N > 81:
         N = 81
 
