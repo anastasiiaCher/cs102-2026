@@ -1,4 +1,6 @@
 import pathlib
+import random
+
 import typing as tp
 
 T = tp.TypeVar("T")
@@ -160,8 +162,23 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
-    pass
+    digits = set('123456789')
+    
+    # Проверяем строки и столбцы
+    for i in range(9):
+        row = get_row(solution, (i, 0))
+        col = get_col(solution, (0, i))
+        if set(row) != digits or set(col) != digits:
+            return False
+            
+    # Проверяем квадраты 3x3
+    for r in range(0, 9, 3):
+        for c in range(0, 9, 3):
+            block = get_block(solution, (r, c))
+            if set(block) != digits:
+                return False
+                
+    return True
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -185,7 +202,28 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    # Создаем пустую доску и решаем её, чтобы получить полностью заполненный валидный пазл
+    empty_grid = [['.' for _ in range(9)] for _ in range(9)]
+    solved_grid = solve(empty_grid)
+    
+    if not solved_grid:
+        return empty_grid
+
+    # Создаем копию решенной доски
+    grid = [row[:] for row in solved_grid]
+    
+    # Количество ячеек, которые нужно убрать (удаляем 81 - N ячеек)
+    cells_to_remove = 81 - N
+    removed = 0
+    
+    while removed < cells_to_remove:
+        r = random.randint(0, 8)
+        c = random.randint(0, 8)
+        if grid[r][c] != '.':
+            grid[r][c] = '.'
+            removed += 1
+            
+    return grid
 
 
 if __name__ == "__main__":
