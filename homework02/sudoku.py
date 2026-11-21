@@ -185,13 +185,32 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    digits = random.sample("123456789", 9)
-    # Сдвиги строк на 3, 3, 1 создают правильное полное поле.
-    grid = [[digits[(row * 3 + row // 3 + col) % 9] for col in range(9)] for row in range(9)]
-    filled = max(0, min(N, 81))
-    for index in random.sample(range(81), 81 - filled):
-        row, col = divmod(index, 9)
+    digits = list("123456789")
+    random.shuffle(digits)
+
+    # Эти сдвиги дают полный квадрат без повторов в строках, столбцах и блоках.
+    row_shifts = [0, 3, 6, 1, 4, 7, 2, 5, 8]
+    grid = []
+    positions = []
+    for row in range(9):
+        shift = row_shifts[row]
+        values = []
+        for col in range(9):
+            digit_index = (col + shift) % 9
+            values.append(digits[digit_index])
+            positions.append((row, col))
+        grid.append(values)
+
+    clues = N
+    if clues < 0:
+        clues = 0
+    elif clues > 81:
+        clues = 81
+
+    cells_to_remove = 81 - clues
+    for row, col in random.sample(positions, cells_to_remove):
         grid[row][col] = "."
+
     return grid
 
 
