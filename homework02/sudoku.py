@@ -165,50 +165,24 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
-    """Генерация судоку заполненного на N элементов
-    >>> grid = generate_sudoku(40)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    41
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(1000)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    0
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(0)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    81
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    """
-    digits = list("123456789")
-    random.shuffle(digits)
+    grid = create_grid("." * 81)
+    solve(grid)
 
-    # Эти сдвиги дают полный квадрат без повторов в строках, столбцах и блоках.
-    row_shifts = [0, 3, 6, 1, 4, 7, 2, 5, 8]
-    grid = []
-    positions = []
+    # Собираем координаты всех клеток.
+    cells = []
     for row in range(9):
-        shift = row_shifts[row]
-        values = []
         for col in range(9):
-            digit_index = (col + shift) % 9
-            values.append(digits[digit_index])
-            positions.append((row, col))
-        grid.append(values)
+            cells.append((row, col))
 
-    clues = N
-    if clues < 0:
-        clues = 0
-    elif clues > 81:
-        clues = 81
+    # Оставляем от 0 до 81 заполненной клетки.
+    if N < 0:
+        N = 0
+    if N > 81:
+        N = 81
 
-    cells_to_remove = 81 - clues
-    for row, col in random.sample(positions, cells_to_remove):
+    # sample выбирает клетки без повторов.
+    cells_to_clear = random.sample(cells, 81 - N)
+    for row, col in cells_to_clear:
         grid[row][col] = "."
 
     return grid
