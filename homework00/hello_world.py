@@ -1,6 +1,2 @@
-"""Возвращает переменную"""
-
-
 def text():
-    """cycucu"""
-    return "message"
+    return message
