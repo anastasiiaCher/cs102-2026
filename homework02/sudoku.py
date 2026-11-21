@@ -1,11 +1,15 @@
+"""Чтение, решение и генерация судоку."""
+
 import pathlib
 import random
 import typing as tp
 
 T = tp.TypeVar("T")
 DIGITS = "123456789"
+
+
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -13,19 +17,21 @@ def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
 
 
 def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
+    """Преобразовать текст судоку в поле."""
     digits = [c for c in puzzle if c in "123456789."]
     grid = group(digits, 9)
     return grid
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
         print(
             "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
+                for col in range(9)
             )
         )
         if str(row) in "25":
@@ -92,7 +98,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return block
 
 
-def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
+def find_empty_positions(
+    grid: tp.List[tp.List[str]],
+) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
     (0, 2)
@@ -108,7 +116,9 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     return None
 
 
-def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
+def find_possible_values(
+    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
+) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -133,7 +143,9 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         return None
 
     board = [row.copy() for row in grid]
-    empty_positions = [(row, col) for row in range(9) for col in range(9) if board[row][col] == "."]
+    empty_positions = [
+        (row, col) for row in range(9) for col in range(9) if board[row][col] == "."
+    ]
 
     def fill() -> bool:
         best_pos = None
@@ -168,7 +180,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     if solution is None or len(solution) != 9:
         return False
     for row in solution:
@@ -214,6 +226,8 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     grid = [["."] * 9 for _ in range(9)]
     grid[0] = random.sample(DIGITS, 9)
     solution = solve(grid)
+    if solution is None:
+        raise RuntimeError("Не удалось сгенерировать заполненное судоку")
 
     for position in random.sample(range(81), 81 - n):
         row = position // 9
