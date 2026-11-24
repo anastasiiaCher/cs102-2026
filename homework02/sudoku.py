@@ -223,3 +223,7 @@ if __name__ == "__main__":
                 print("Solution is correct")
             else:
                 print("Ooops, solution is wrong")
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 065c4683be09d331a35b287fedfedd996e7ba28d
