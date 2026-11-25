@@ -42,29 +42,29 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     """
     if phi == 1:
         return 0
-    
+
     d = 0
     x1 = 0
     x2 = 1
     y1 = 1
     temp_phi = phi
-    
+
     e_val = e
-    
+
     while e_val > 0:
         temp1 = temp_phi // e_val
         temp2 = temp_phi - temp1 * e_val
         temp_phi = e_val
         e_val = temp2
-        
+
         x = x2 - temp1 * x1
         y = d - temp1 * y1
-        
+
         x2 = x1
         x1 = x
         d = y1
         y1 = y
-    
+
     if temp_phi != 1:
         return 0
     return d % phi
@@ -76,19 +76,26 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
+    # n = pq
     n = p * q
 
+    # phi = (p-1)(q-1)
     phi = (p - 1) * (q - 1)
 
+    # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
 
+    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
 
+    # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
 
+    # Return public and private keypair
+    # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
 
 
@@ -100,7 +107,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
 
 def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     key, n = pk
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     return "".join(plain)
 
 
@@ -118,3 +125,4 @@ if __name__ == "__main__":
     print("Decrypting message with private key ", private, " . . .")
     print("Your message is:")
     print(decrypt(private, encrypted_msg))
+    

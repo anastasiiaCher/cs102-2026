@@ -1,6 +1,7 @@
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
+
     >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
     >>> encrypt_caesar("python")
@@ -13,8 +14,8 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ciphertext = ""
     for char in plaintext:
         if char.isalpha():
-            # Определяем  'A' или 'a'
-            base = ord('A') if char.isupper() else ord('a')
+            # Определяем базу "A" или "a"
+            base = ord("A") if char.isupper() else ord("a")
             # Вычисляем новый код символа со сдвигом и зацикливанием через % 26
             shifted_code = (ord(char) - base + shift) % 26
             ciphertext += chr(base + shifted_code)
@@ -27,6 +28,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     Decrypts a ciphertext using a Caesar cipher.
+
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
@@ -39,7 +41,7 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     plaintext = ""
     for char in ciphertext:
         if char.isalpha():
-            base = ord('A') if char.isupper() else ord('a')
+            base = ord("A") if char.isupper() else ord("a")
             # При расшифровке вычитаем сдвиг
             shifted_code = (ord(char) - base - shift) % 26
             plaintext += chr(base + shifted_code)
